@@ -14,11 +14,13 @@ export type HandleRequestProp = {
   data?: {};
 };
 
-export const handleRequest = async (args: HandleRequestProp) => {
+export const handleRequest:any = async (args: HandleRequestProp) => {
   const { path, method, headers, data } = args;
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await axios[method](path, data, headers);
+      const response = await axios[method](path, data, {
+        headers: headers,
+      });
       resolve(response.data);
     } catch (error) {
       reject(error as Error);
