@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
 import style from "../../styles/continueRegister.module.css";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import {
@@ -12,11 +11,13 @@ import {
   Typography,
 } from "@mui/material";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
-import { handleRequest, RequestMethod } from "../../../common/requset";
+import dayjs, { Dayjs } from "dayjs";
+import { handleRequest } from "../../../common/requset";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
-import { Gender, UploadResponse } from "@/model/authorization/continueRegister";
-import { RegisterProps } from "@/model/environment/env";
+import { Gender, UploadResponse } from "@/model/authorization/authorization";
+import { IEnv } from "@/model/environment/env";
+import { RequestMethod } from "@/model/common/common";
 
 export async function getStaticProps() {
   return {
@@ -27,7 +28,7 @@ export async function getStaticProps() {
   };
 }
 
-export default function ContinueRegister(props: RegisterProps) {
+export default function ContinueRegister(props: IEnv) {
   const { backend_path, upload_api_key } = props;
   const jwt =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -36,22 +37,39 @@ export default function ContinueRegister(props: RegisterProps) {
   const [imgId, setImgId] = useState<number>();
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const files = e.target.files[0];
-      var data = new FormData();
-      data.append("files", files);
-      const response: Promise<UploadResponse> = await handleRequest({
+      const file = e.target.files[0];
+      const formdata = new FormData();
+      formdata.append("files", file);
+      const response: UploadResponse[] = await handleRequest({
         path: `${backend_path}/api/upload/`,
         method: RequestMethod.POST,
         headers: {
           Authorization: `Bearer ${upload_api_key}`,
         },
-        data: data,
+        data: formdata,
       });
-      setImgId((await response).id);
+      await setImgId(response[0].id);
     }
   };
 
-  const [birthDate, setBirthDate] = useState<Date | null>();
+  const [birthDate, setBirthDate] = useState<Dayjs | null>(dayjs(""));
+  const birthDateObj = {
+    year: birthDate?.get("year"),
+    month:
+      birthDate?.get("month") === undefined
+        ? "00"
+        : birthDate?.get("month") + 1 < 10
+        ? `0${birthDate?.get("month") + 1}`
+        : birthDate?.get("month"),
+    date:
+      birthDate?.get("date") === undefined
+        ? "00"
+        : birthDate?.get("date") < 10
+        ? `0${birthDate?.get("date")}`
+        : birthDate?.get("date"),
+  };
+  const formatBirthDate = `${birthDateObj.year}-${birthDateObj.month}-${birthDateObj.date}`;
+
   const onContinueRegister = async (e: React.SyntheticEvent) => {
     try {
       e.preventDefault();
@@ -70,10 +88,11 @@ export default function ContinueRegister(props: RegisterProps) {
           Authorization: `Bearer ${jwt?.split('"')[1]}`,
         },
         data: {
-          birthDate: birthDate,
+          birthdate: formatBirthDate,
           gender: gender,
           height: height,
           weight: weight,
+          profileImage: imgId,
         },
       });
       await Swal.fire({
@@ -102,11 +121,7 @@ export default function ContinueRegister(props: RegisterProps) {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             value={birthDate}
-            onChange={(birthDate) => {
-              console.log(birthDate);
-
-              setBirthDate(birthDate);
-            }}
+            onChange={(newDate) => setBirthDate(newDate)}
           />
         </LocalizationProvider>
 

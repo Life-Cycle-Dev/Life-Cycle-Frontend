@@ -1,20 +1,7 @@
+import { IHandleRequest } from "@/model/common/common";
 import axios from "axios";
 
-export enum RequestMethod {
-  GET = "get",
-  PUT = "put",
-  POST = "post",
-  DELETE = "delete",
-}
-
-export type HandleRequestProp = {
-  path: string;
-  method: RequestMethod;
-  headers?: {};
-  data?: {};
-};
-
-export const handleRequest:any = async (args: HandleRequestProp) => {
+export const handleRequest: any = async (args: IHandleRequest) => {
   const { path, method, headers, data } = args;
   return new Promise(async (resolve, reject) => {
     try {

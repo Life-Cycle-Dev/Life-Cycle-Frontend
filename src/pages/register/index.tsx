@@ -1,9 +1,10 @@
-import { RegisterProps } from "@/model/environment/env";
+import { RequestMethod } from "@/model/common/common";
+import { IEnv } from "@/model/environment/env";
 import { Button, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
-import { handleRequest, RequestMethod } from "../../../common/requset";
+import { handleRequest } from "../../../common/requset";
 import style from "../../styles/register.module.css";
 
 export async function getStaticProps() {
@@ -14,7 +15,7 @@ export async function getStaticProps() {
   };
 }
 
-export default function Register(props: RegisterProps) {
+export default function Register(props: IEnv) {
   const { backend_path } = props;
   const router = useRouter();
 
