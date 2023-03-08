@@ -1,8 +1,10 @@
+import { RequestMethod } from "@/model/common/common";
+import { IEnv } from "@/model/environment/env";
 import { Button, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import Swal from "sweetalert2";
-import { handleRequest, RequestMethod } from "../../../common/requset";
+import { handleRequest } from "../../../common/requset";
 import style from "../../styles/register.module.css";
 
 export async function getStaticProps() {
@@ -13,11 +15,7 @@ export async function getStaticProps() {
   };
 }
 
-export type RegisterProps = {
-  backend_path: string;
-};
-
-export default function Register(props: RegisterProps) {
+export default function Register(props: IEnv) {
   const { backend_path } = props;
   const router = useRouter();
 
@@ -43,7 +41,9 @@ export default function Register(props: RegisterProps) {
             email: email,
             password: password,
           },
-        });
+        }).then((res: any) =>
+          localStorage.setItem("token", JSON.stringify(res.jwt))
+        );
         await Swal.fire({
           icon: "success",
           title: "Registered",
@@ -51,12 +51,6 @@ export default function Register(props: RegisterProps) {
           timer: 1500,
         });
         await router.push("/continueRegister");
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "error",
-          text: "Password does not match",
-        });
       }
     } catch (error) {
       Swal.fire({
@@ -66,6 +60,9 @@ export default function Register(props: RegisterProps) {
       });
     }
   };
+
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   return (
     <div className={style.container}>
       <Typography variant="h6" gutterBottom>
@@ -74,12 +71,37 @@ export default function Register(props: RegisterProps) {
       <form className={style.form} onSubmit={onRegister}>
         <TextField required label="Fullname" name="full_name" />
         <TextField required type="email" label="Email" name="email" />
-        <TextField required type="password" label="Password" name="password" />
+        <TextField
+          required
+          type="password"
+          label="Password"
+          name="password"
+          error={password.length == 0 || password.length >= 6 ? false : true}
+          helperText={
+            password.length < 6 && password.length > 0
+              ? "password should be more than 6 characters."
+              : ""
+          }
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <TextField
           required
           type="password"
           label="Confirm Password"
           name="confirm_password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          error={
+            confirmPassword !== password && confirmPassword.length > 0
+              ? true
+              : false
+          }
+          helperText={
+            confirmPassword !== password && confirmPassword.length > 0
+              ? "password does not match"
+              : ""
+          }
         />
         <Button variant="contained" type="submit">
           submit
