@@ -42,8 +42,8 @@ export default function App({ Component, pageProps }: AppProps) {
   return(
     <>
       <Head>
-        <Script src="https://cdn.lordicon.com/ritcuqlt.js"></Script>
       </Head>
+      <Script src="https://cdn.lordicon.com/ritcuqlt.js"></Script>
       {
         loading && <Loading/>
       }
