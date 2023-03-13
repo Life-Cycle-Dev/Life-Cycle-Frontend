@@ -3,8 +3,8 @@ export type UploadResponse = {
   formats: {
     small: {
       url: string;
-    }
-  }
+    };
+  };
 };
 
 export enum Gender {
@@ -23,5 +23,10 @@ export type GetUserInfoResponse = {
   weight: number;
   profileImage: {
     id: number;
+    formats: {
+      small: {
+        url: string;
+      };
+    };
   };
 };
