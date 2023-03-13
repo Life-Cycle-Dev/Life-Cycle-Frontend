@@ -21,7 +21,5 @@ export type GetUserInfoResponse = {
   name: string;
   height: number;
   weight: number;
-  profileImage: {
-    id: number;
-  };
+  profileImage: UploadResponse;
 };

@@ -34,7 +34,7 @@ export default function Login(props: {user:GetUserInfoResponse}) {
           showConfirmButton: false,
           timer: 1500,
         });
-        await router.push("/");
+        window.location.href = "/"
       });
     } catch (error) {   
       Swal.fire({
