@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { GetUserInfoResponse } from '@/model/users/users';
+import { GetUserInfoResponse } from "@/model/users/users";
 import Navbar from "@/components/Navbar";
 import Header from "@/components/Header";
 
@@ -18,5 +18,5 @@ export default function Home(props: { user: GetUserInfoResponse }) {
       <Navbar />
       <Header userImg={props.user?.profileImage?.formats?.small?.url || "" } />
     </>
-  )
+  );
 }

@@ -3,8 +3,8 @@ export type UploadResponse = {
   formats: {
     small: {
       url: string;
-    }
-  }
+    };
+  };
 };
 
 export enum Gender {
