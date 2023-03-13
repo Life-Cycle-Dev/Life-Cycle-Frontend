@@ -100,8 +100,8 @@ export default function ContinueRegister() {
 
                 <div className="sticky flex justify-center">
                     <img src={userImgUrl ? userImgUrl : "asset/profile icon.png"} 
-                         className={`${isUpload && "animate-pulse"} bottom-0 left-0 z-0 w-[120px] rounded-full`} />
-                    <div className={`${isUpload && "animate-pulse"} cursor-pointer overflow-hidden absolute bottom-0 h-full z-10 bottom-0 z-0 w-[120px] rounded-full`}
+                         className={`${isUpload && "animate-pulse"} bottom-0 left-0 z-0 w-[120px] h-[120px] object-cover rounded-full`} />
+                    <div className={`${isUpload && "animate-pulse"} cursor-pointer overflow-hidden absolute bottom-0 h-full z-10 bottom-0 z-0 w-[120px] h-[120px] object-cover rounded-full`}
                          onClick={() => inputFileRef.current.click()}>
                         <div className="absolute bottom-0 z-10 w-full text-center p-0.5 pb-1.5 font-bold bg-[#00000080] text-white">Upload</div>
                     </div>

@@ -4,23 +4,34 @@ import {
   GetUserInfoResponse,
   UploadResponse,
 } from "@/model/users/users";
-import moment from "moment";
-import React, { ChangeEvent, SyntheticEvent, useRef, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useRef, useState, useEffect } from "react";
 import { handleRequest } from "../../common/requset";
 import { RequestMethod } from "@/model/common/common";
 import Swal from "sweetalert2";
-import { useRouter } from "next/router";
+import { getUser } from "../../common/getUser";
 
 export default function Profile(props: { user: GetUserInfoResponse }) {
-  const router = useRouter();
   const inputFileRef = useRef<any>();
 
-  const [name, setName] = useState<string>("");
   const [gender, setGender] = useState<Gender>(Gender.FEMALE);
   const [userImgId, setUserImgId] = useState<number>(-1);
-  const [userImgUrl, setUserImgUrl] = useState<string>(
-    props.user?.profileImage?.formats.small.url || ""
-  );
+  const [userImgUrl, setUserImgUrl] = useState<string>("");
+
+  useEffect(() => {
+    const token = localStorage.getItem('token') || ""
+    getUser(token).then((user:any) => {
+      if(user) {
+        setUserImgId(user?.profileImage?.id)
+        setGender(user?.gender)
+        setUserImgUrl(user?.profileImage?.formats.small.url)
+      }
+    })
+    .catch(() => {
+    })
+    
+  }, [])
+  
+
   const [isUpload, setIsUpload] = useState<boolean>(false);
 
   const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +48,9 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
         },
         data: formdata,
       });
-      setUserImgUrl(response[0].formats.small.url);
+      console.log(response);
+      
+      setUserImgUrl(response[0].url);
       setIsUpload(false);
       setUserImgId(response[0].id);
     }
@@ -103,7 +116,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
   const onLogout = async () => {
     try {
       await localStorage.removeItem("token");
-      await router.push("/login");
+      window.location.href = "/login";
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -127,12 +140,12 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                     src={userImgUrl ? userImgUrl : "asset/profile icon.png"}
                     className={`${
                       isUpload && "animate-pulse"
-                    } bottom-0 left-0 z-0 w-[30%] rounded-full`}
+                    } bottom-0 left-0 z-0 rounded-full w-[120px] h-[120px] object-cover`}
                   />
                   <div
                     className={`${
                       isUpload && "animate-pulse"
-                    } cursor-pointer overflow-hidden absolute bottom-0 h-full z-10 bottom-0 z-0 w-[30%] rounded-full`}
+                    } w-[120px] h-[120px] object-cover cursor-pointer overflow-hidden absolute bottom-0 h-full z-10 bottom-0 z-0 rounded-full`}
                     onClick={() => inputFileRef.current.click()}
                   >
                     <div className="absolute bottom-0 z-10 w-full text-center p-0.5 pb-1.5 font-bold bg-[#00000080] text-white">
@@ -160,8 +173,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                       type="string"
                       name="name"
                       id="name"
-                      value={props.user?.name}
-                      onChange={(e) => setName(e.target.value)}
+                      defaultValue={props.user?.name}
                       placeholder="Weight (kg.)"
                       className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                     />
@@ -195,9 +207,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                       type="date"
                       name="birth_date"
                       id="birth_date"
-                      value={props.user?.birthdate}
-                      placeholder="Enter your name"
-                      max={moment().format("YYYY-MM-DD")}
+                      defaultValue={props.user?.birthdate}
                       className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                     />
                   </div>
@@ -246,7 +256,6 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                       name="gender"
                       id="gender"
                       value={gender}
-                      placeholder="Enter your name"
                       className="hidden block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                     />
                   </div>
@@ -266,7 +275,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                       type="number"
                       name="height"
                       id="height"
-                      value={props.user?.height}
+                      defaultValue={props.user?.height}
                       placeholder="Height (cm.)"
                       className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                     />
@@ -287,7 +296,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                       type="number"
                       name="weight"
                       id="weight"
-                      value={props.user?.weight}
+                      defaultValue={props.user?.weight}
                       placeholder="Weight (kg.)"
                       className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                     />

@@ -24,7 +24,7 @@ export default function Navbar() {
     ]
 
     return (
-        <div className="shadow-lg bg-gray-50 w-full h-fit z-200 fixed bottom-0 px-5 py-3 flex justify-around items-center">
+        <div className="shadow-lg bg-gray-50 w-full h-fit z-10 fixed bottom-0 px-5 py-3 flex justify-around items-center">
             {
                 links.map((link, index) => {
                     return (

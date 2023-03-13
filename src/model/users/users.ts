@@ -5,6 +5,7 @@ export type UploadResponse = {
       url: string;
     };
   };
+  url : string;
 };
 
 export enum Gender {

@@ -8,7 +8,7 @@ import Script from 'next/script'
 
 function Loading() {
   return (
-    <div className="flex items-center justify-center bg-white w-full bg-white h-full fixed">
+    <div className="flex items-center justify-center bg-white w-full bg-white h-full z-300 fixed">
       <span className="animate-ping absolute inline-flex h-10 w-10 rounded-full bg-sky-400 opacity-75" />
       <span className="inline-flex rounded-full h-7 w-7 bg-sky-500" />
     </div>
@@ -45,9 +45,11 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <Script src="https://cdn.lordicon.com/ritcuqlt.js"></Script>
       {
-        loading && <Loading/>
+        loading && <Loading /> 
       }
-      <Component {...pageProps} user={user} setLoading={setLoading} />
+      <div className={`${loading && "hidden"}`}>
+        <Component {...pageProps} user={user} setLoading={setLoading} />
+      </div>
     </>
   )
 }
