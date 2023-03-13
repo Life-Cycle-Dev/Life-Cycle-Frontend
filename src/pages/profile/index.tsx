@@ -1,20 +1,10 @@
-import { IEnv } from "@/model/environment/env";
 import React, { useEffect, useState } from "react";
 import { getUser } from "../../../common/getUser";
 import { Avatar, Typography } from "@mui/material";
 import style from "../../styles/profile.module.css";
 import { GetUserInfoResponse } from "@/model/users/users";
 
-// export async function getStaticProps() {
-//   return {
-//     props: {
-//       backend_path: process.env.NEXT_PUBLIC_BACKEND_PATH,
-//     },
-//   };
-// }
-
-export default function Profile(props: IEnv) {
-  // const { backend_path } = props;
+export default function Profile() {
   const [userInfo, setUserInfo] = useState<GetUserInfoResponse>();
   const isSSR = typeof window === "undefined";
 

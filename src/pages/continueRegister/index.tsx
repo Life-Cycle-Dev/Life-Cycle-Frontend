@@ -16,20 +16,9 @@ import { handleRequest } from "../../../common/requset";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
 import { Gender, UploadResponse } from "@/model/users/users";
-import { IEnv } from "@/model/environment/env";
 import { RequestMethod } from "@/model/common/common";
 
-// export async function getStaticProps() {
-//   return {
-//     props: {
-//       backend_path: process.env.NEXT_PUBLIC_BACKEND_PATH,
-//       upload_api_key: process.env.UPLOAD_API_KEY,
-//     },
-//   };
-// }
-
 export default function ContinueRegister() {
-  // const { backend_path, upload_api_key } = props;
   const jwt =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
   const router = useRouter();

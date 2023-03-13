@@ -1,5 +1,4 @@
 import { RequestMethod } from "@/model/common/common";
-import { IEnv } from "@/model/environment/env";
 import { Button, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -7,16 +6,7 @@ import Swal from "sweetalert2";
 import { handleRequest } from "../../../common/requset";
 import style from "../../styles/register.module.css";
 
-// export async function getStaticProps() {
-//   return {
-//     props: {
-//       backend_path: process.env.NEXT_PUBLIC_BACKEND_PATH,
-//     },
-//   };
-// }
-
 export default function Register() {
-  // const { backend_path } = props;
   const router = useRouter();
 
   const onRegister = async (e: React.SyntheticEvent) => {

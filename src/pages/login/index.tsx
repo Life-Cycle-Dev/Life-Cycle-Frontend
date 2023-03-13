@@ -4,19 +4,9 @@ import { useRouter } from "next/router";
 import React from "react";
 import Swal from "sweetalert2";
 import { handleRequest } from "../../../common/requset";
-import { IEnv } from "../../model/environment/env";
 import style from "../../styles/login.module.css";
 
-// export async function getStaticProps() {
-//   return {
-//     props: {
-//       backend_path: process.env.NEXT_PUBLIC_BACKEND_PATH,
-//     },
-//   };
-// }
-
 export default function Login() {
-  // const { backend_path } = props;
   const router = useRouter();
 
   const onLogin = async (e: React.SyntheticEvent) => {
