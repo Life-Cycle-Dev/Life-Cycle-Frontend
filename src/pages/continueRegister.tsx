@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
-import style from "../../styles/continueRegister.module.css";
+import style from "../styles/continueRegister.module.css";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -12,13 +12,13 @@ import {
 } from "@mui/material";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import dayjs, { Dayjs } from "dayjs";
-import { handleRequest } from "../../../common/requset";
+import { handleRequest } from "../../common/requset";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
 import { Gender, UploadResponse } from "@/model/users/users";
 import { RequestMethod } from "@/model/common/common";
 
-export default function ContinueRegister() {
+export default function ContinueRegister(props:any) {
   const jwt =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
   const router = useRouter();
@@ -41,6 +41,8 @@ export default function ContinueRegister() {
     }
   };
 
+  console.log(props);
+  
   const [birthDate, setBirthDate] = useState<Dayjs | null>(dayjs(""));
   const birthDateObj = {
     year: birthDate?.get("year"),
