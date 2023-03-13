@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { getUser } from '../../common/getUser'
 import { GetUserInfoResponse } from '@/model/users/users';
 import Head from 'next/head';
+import Script from 'next/script'
 
 function Loading() {
   return (
@@ -41,7 +42,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return(
     <>
       <Head>
-        <script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+        <Script src="https://cdn.lordicon.com/ritcuqlt.js"></Script>
       </Head>
       {
         loading && <Loading/>

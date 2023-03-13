@@ -7,7 +7,7 @@ import moment from 'moment';
 import Link from "next/link";
 import Swal from "sweetalert2";
 
-export default function continueRegister() {
+export default function ContinueRegister() {
     const inputFileRef = useRef<any>()
 
     const [gender, setGender] = useState<Gender>(Gender.FEMALE)
