@@ -15,14 +15,14 @@ import dayjs, { Dayjs } from "dayjs";
 import { handleRequest } from "../../../common/requset";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
-import { Gender, UploadResponse } from "@/model/authorization/authorization";
+import { Gender, UploadResponse } from "@/model/users/users";
 import { IEnv } from "@/model/environment/env";
 import { RequestMethod } from "@/model/common/common";
 
 export async function getStaticProps() {
   return {
     props: {
-      backend_path: process.env.BACKEND_PATH,
+      backend_path: process.env.NEXT_PUBLIC_BACKEND_PATH,
       upload_api_key: process.env.UPLOAD_API_KEY,
     },
   };
@@ -121,7 +121,7 @@ export default function ContinueRegister(props: IEnv) {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             value={birthDate}
-            onChange={(newDate) => setBirthDate(newDate)}
+            onChange={(newDate: any) => setBirthDate(newDate)}
           />
         </LocalizationProvider>
 

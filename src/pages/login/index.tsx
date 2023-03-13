@@ -10,7 +10,7 @@ import style from "../../styles/login.module.css";
 export async function getStaticProps() {
   return {
     props: {
-      backend_path: process.env.BACKEND_PATH,
+      backend_path: process.env.NEXT_PUBLIC_BACKEND_PATH,
     },
   };
 }
