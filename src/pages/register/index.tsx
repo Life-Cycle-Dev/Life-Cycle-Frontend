@@ -7,16 +7,16 @@ import Swal from "sweetalert2";
 import { handleRequest } from "../../../common/requset";
 import style from "../../styles/register.module.css";
 
-export async function getStaticProps() {
-  return {
-    props: {
-      backend_path: process.env.NEXT_PUBLIC_BACKEND_PATH,
-    },
-  };
-}
+// export async function getStaticProps() {
+//   return {
+//     props: {
+//       backend_path: process.env.NEXT_PUBLIC_BACKEND_PATH,
+//     },
+//   };
+// }
 
-export default function Register(props: IEnv) {
-  const { backend_path } = props;
+export default function Register() {
+  // const { backend_path } = props;
   const router = useRouter();
 
   const onRegister = async (e: React.SyntheticEvent) => {
@@ -34,7 +34,7 @@ export default function Register(props: IEnv) {
       const confirmPassword = target.confirm_password.value;
       if (password === confirmPassword) {
         await handleRequest({
-          path: `${backend_path}/api/users/register`,
+          path: `${process.env.NEXT_PUBLIC_BACKEND_PATH}/api/users/register`,
           method: RequestMethod.POST,
           data: {
             name: fullName,

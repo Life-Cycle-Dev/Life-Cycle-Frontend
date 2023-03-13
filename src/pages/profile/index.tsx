@@ -5,16 +5,16 @@ import { Avatar, Typography } from "@mui/material";
 import style from "../../styles/profile.module.css";
 import { GetUserInfoResponse } from "@/model/users/users";
 
-export async function getStaticProps() {
-  return {
-    props: {
-      backend_path: process.env.NEXT_PUBLIC_BACKEND_PATH,
-    },
-  };
-}
+// export async function getStaticProps() {
+//   return {
+//     props: {
+//       backend_path: process.env.NEXT_PUBLIC_BACKEND_PATH,
+//     },
+//   };
+// }
 
 export default function Profile(props: IEnv) {
-  const { backend_path } = props;
+  // const { backend_path } = props;
   const [userInfo, setUserInfo] = useState<GetUserInfoResponse>();
   const isSSR = typeof window === "undefined";
 
@@ -24,7 +24,7 @@ export default function Profile(props: IEnv) {
       const strToken = jwt?.split('"')[1];
       getUser(strToken || "").then((res) => setUserInfo(res));
     }
-  }, [backend_path, isSSR]);
+  }, [isSSR]);
   console.log(userInfo);
 
   return (
