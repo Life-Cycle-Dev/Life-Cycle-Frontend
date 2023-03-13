@@ -15,21 +15,10 @@ import dayjs, { Dayjs } from "dayjs";
 import { handleRequest } from "../../../common/requset";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
-import { Gender, UploadResponse } from "@/model/authorization/authorization";
-import { IEnv } from "@/model/environment/env";
+import { Gender, UploadResponse } from "@/model/users/users";
 import { RequestMethod } from "@/model/common/common";
 
-export async function getStaticProps() {
-  return {
-    props: {
-      backend_path: process.env.BACKEND_PATH,
-      upload_api_key: process.env.UPLOAD_API_KEY,
-    },
-  };
-}
-
-export default function ContinueRegister(props: IEnv) {
-  const { backend_path, upload_api_key } = props;
+export default function ContinueRegister() {
   const jwt =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
   const router = useRouter();
@@ -41,10 +30,10 @@ export default function ContinueRegister(props: IEnv) {
       const formdata = new FormData();
       formdata.append("files", file);
       const response: UploadResponse[] = await handleRequest({
-        path: `${backend_path}/api/upload/`,
+        path: `${process.env.NEXT_PUBLIC_BACKEND_PATH}/api/upload/`,
         method: RequestMethod.POST,
         headers: {
-          Authorization: `Bearer ${upload_api_key}`,
+          Authorization: `Bearer ${process.env.UPLOAD_API_KEY}`,
         },
         data: formdata,
       });
@@ -82,7 +71,7 @@ export default function ContinueRegister(props: IEnv) {
       const height = target.height.value;
       const weight = target.weight.value;
       await handleRequest({
-        path: `${backend_path}/api/users/update`,
+        path: `${process.env.NEXT_PUBLIC_BACKEND_PATH}/api/users/update`,
         method: RequestMethod.PUT,
         headers: {
           Authorization: `Bearer ${jwt?.split('"')[1]}`,
@@ -121,7 +110,7 @@ export default function ContinueRegister(props: IEnv) {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             value={birthDate}
-            onChange={(newDate) => setBirthDate(newDate)}
+            onChange={(newDate: any) => setBirthDate(newDate)}
           />
         </LocalizationProvider>
 

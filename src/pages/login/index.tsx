@@ -4,19 +4,9 @@ import { useRouter } from "next/router";
 import React from "react";
 import Swal from "sweetalert2";
 import { handleRequest } from "../../../common/requset";
-import { IEnv } from "../../model/environment/env";
 import style from "../../styles/login.module.css";
 
-export async function getStaticProps() {
-  return {
-    props: {
-      backend_path: process.env.BACKEND_PATH,
-    },
-  };
-}
-
-export default function Login(props: IEnv) {
-  const { backend_path } = props;
+export default function Login() {
   const router = useRouter();
 
   const onLogin = async (e: React.SyntheticEvent) => {
@@ -29,7 +19,7 @@ export default function Login(props: IEnv) {
       const identifier = target.email.value;
       const password = target.password.value;
       await handleRequest({
-        path: `${backend_path}/api/auth/local`,
+        path: `${process.env.NEXT_PUBLIC_BACKEND_PATH}/api/auth/local`,
         method: RequestMethod.POST,
         data: {
           identifier: identifier,
