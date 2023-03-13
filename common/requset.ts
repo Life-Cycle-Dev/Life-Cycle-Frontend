@@ -1,5 +1,5 @@
 import { IHandleRequest } from "@/model/common/common";
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 
 export const handleRequest: any = async (args: IHandleRequest) => {
   const { path, method, headers, data } = args;
@@ -9,8 +9,10 @@ export const handleRequest: any = async (args: IHandleRequest) => {
         headers: headers,
       });
       resolve(response.data);
-    } catch (error) {
-      reject(error as Error);
+    } catch (error) {  
+      reject({
+        message: (((error as AxiosError).response?.data) as any).error?.message || (((error as AxiosError).response?.data) as any).message || "Something went wrong",
+      });
     }
   });
 };
