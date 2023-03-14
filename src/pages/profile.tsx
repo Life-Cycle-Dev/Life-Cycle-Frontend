@@ -23,7 +23,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
       if(user) {
         setUserImgId(user?.profileImage?.id)
         setGender(user?.gender)
-        setUserImgUrl(user?.profileImage?.formats.small.url)
+        setUserImgUrl(user?.profileImage?.url)
       }
     })
     .catch(() => {
