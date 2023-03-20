@@ -15,6 +15,18 @@
   h2 {
     @apply text-h2;
   }
+
+  input {
+    display: block;
+    width: 100%;
+    padding: 1rem 1rem 1rem 2.5rem;
+    background: var(--backgroundInput);
+    border-radius: 0.75rem;
+  }
+
+  input:focus {
+    outline: none;
+  }
 }
 
 :root {
@@ -22,4 +34,21 @@
   --backgroundInput: #1f222a;
   --primary: #ff7644;
   --textWhite: #ffffff;
+  --white: #fff;
+  --iconInput: #9d9e9e;
+  --disable: #d7d5d3;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
 }

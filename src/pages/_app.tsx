@@ -7,7 +7,7 @@ import Script from "next/script";
 
 function Loading() {
   return (
-    <div className="flex items-center justify-center w-full h-full z-300 fixed">
+    <div className="flex items-center justify-center w-full h-full z-40 fixed">
       <span className="animate-ping absolute inline-flex h-10 w-10 rounded-full bg-textWhite opacity-75" />
       <span className="inline-flex rounded-full h-7 w-7 bg-sky-500" />
     </div>

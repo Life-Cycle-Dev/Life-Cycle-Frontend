@@ -104,7 +104,6 @@ export default function Register(props: { user: GetUserInfoResponse }) {
                         name="full_name"
                         id="name"
                         placeholder="Enter your name"
-                        className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500  rounded-xl bg-backgroundInput focus:outline-none"
                       />
                     </div>
                   </div>
@@ -126,7 +125,6 @@ export default function Register(props: { user: GetUserInfoResponse }) {
                         name="email"
                         id="email"
                         placeholder="Enter your email"
-                        className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500  rounded-xl bg-backgroundInput focus:outline-none"
                       />
                     </div>
                   </div>
@@ -152,7 +150,7 @@ export default function Register(props: { user: GetUserInfoResponse }) {
                           errorField === "password"
                             ? "border-red-600 focus:border-red-600"
                             : "border-gray-200 focus:border-blue-600"
-                        }block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500  rounded-xl bg-backgroundInput focus:outline-none`}
+                        }`}
                       />
                     </div>
                     <div className="mt-2 text-[#ff0023]">
@@ -181,7 +179,7 @@ export default function Register(props: { user: GetUserInfoResponse }) {
                           errorField === "password"
                             ? "border-red-600 focus:border-red-600"
                             : "border-gray-200 focus:border-blue-600"
-                        } block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500  rounded-xl bg-backgroundInput focus:outline-none`}
+                        } `}
                       />
                     </div>
                     <div className="mt-2 text-[#ff0023]">

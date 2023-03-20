@@ -4,7 +4,13 @@ import {
   GetUserInfoResponse,
   UploadResponse,
 } from "@/model/users/users";
-import { ChangeEvent, SyntheticEvent, useRef, useState, useEffect } from "react";
+import {
+  ChangeEvent,
+  SyntheticEvent,
+  useRef,
+  useState,
+  useEffect,
+} from "react";
 import { handleRequest } from "../../common/requset";
 import { RequestMethod } from "@/model/common/common";
 import Swal from "sweetalert2";
@@ -18,19 +24,17 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
   const [userImgUrl, setUserImgUrl] = useState<string>("");
 
   useEffect(() => {
-    const token = localStorage.getItem('token') || ""
-    getUser(token).then((user:any) => {
-      if(user) {
-        setUserImgId(user?.profileImage?.id)
-        setGender(user?.gender)
-        setUserImgUrl(user?.profileImage?.url)
-      }
-    })
-    .catch(() => {
-    })
-    
-  }, [])
-  
+    const token = localStorage.getItem("token") || "";
+    getUser(token)
+      .then((user: any) => {
+        if (user) {
+          setUserImgId(user?.profileImage?.id);
+          setGender(user?.gender);
+          setUserImgUrl(user?.profileImage?.url);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const [isUpload, setIsUpload] = useState<boolean>(false);
 
@@ -49,7 +53,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
         data: formdata,
       });
       console.log(response);
-      
+
       setUserImgUrl(response[0].url);
       setIsUpload(false);
       setUserImgId(response[0].id);
@@ -145,7 +149,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                   <div
                     className={`${
                       isUpload && "animate-pulse"
-                    } w-[120px] h-[120px] object-cover cursor-pointer overflow-hidden absolute bottom-0 h-full z-10 bottom-0 z-0 rounded-full`}
+                    } w-[120px] h-[120px] object-cover cursor-pointer overflow-hidden absolute  bottom-0 z-0 rounded-full`}
                     onClick={() => inputFileRef.current.click()}
                   >
                     <div className="absolute bottom-0 z-10 w-full text-center p-0.5 pb-1.5 font-bold bg-[#00000080] text-white">
@@ -175,7 +179,6 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                       id="name"
                       defaultValue={props.user?.name}
                       placeholder="Weight (kg.)"
-                      className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                     />
                   </div>
                 </div>
@@ -208,7 +211,6 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                       name="birth_date"
                       id="birth_date"
                       defaultValue={props.user?.birthdate}
-                      className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                     />
                   </div>
                 </div>
@@ -225,7 +227,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                           gender === Gender.FEMALE
                             ? "border-blue-600 text-blue-600"
                             : "border-gray-200"
-                        } flex items-center block w-[50%] py-4 pl-10 pr-4 border hover:border-blue-600 rounded-md bg-gray-50 cursor-pointer`}
+                        } flex items-center  w-[50%] py-4 pl-10 pr-4 border hover:border-blue-600 rounded-md bg-gray-50 cursor-pointer`}
                         onClick={() => setGender(Gender.FEMALE)}
                       >
                         <lord-icon
@@ -240,7 +242,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                           gender === Gender.MALE
                             ? "border-blue-600  text-blue-600"
                             : "border-gray-200 "
-                        } flex text-black items-center block w-[50%] py-4 pl-10 pr-4 border hover:border-blue-600 rounded-md bg-gray-50 cursor-pointer`}
+                        } flex text-black items-center  w-[50%] py-4 pl-10 pr-4 border hover:border-blue-600 rounded-md bg-gray-50 cursor-pointer`}
                         onClick={() => setGender(Gender.MALE)}
                       >
                         <lord-icon
@@ -256,7 +258,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                       name="gender"
                       id="gender"
                       value={gender}
-                      className="hidden block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
+                      className="hidden"
                     />
                   </div>
                 </div>
@@ -277,7 +279,6 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                       id="height"
                       defaultValue={props.user?.height}
                       placeholder="Height (cm.)"
-                      className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                     />
                   </div>
                 </div>
@@ -298,7 +299,6 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                       id="weight"
                       defaultValue={props.user?.weight}
                       placeholder="Weight (kg.)"
-                      className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                     />
                   </div>
                 </div>

@@ -85,7 +85,6 @@ export default function Login(props: { user: GetUserInfoResponse }) {
                         id="email"
                         placeholder="Enter your email"
                         autoComplete="off"
-                        className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500  rounded-xl bg-backgroundInput focus:outline-none "
                       />
                     </div>
                   </div>
@@ -106,7 +105,6 @@ export default function Login(props: { user: GetUserInfoResponse }) {
                         name="password"
                         id="password"
                         placeholder="Enter your password"
-                        className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500  rounded-xl bg-backgroundInput focus:outline-none"
                       />
                     </div>
                   </div>

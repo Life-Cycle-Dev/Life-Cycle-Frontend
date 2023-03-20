@@ -40,4 +40,8 @@ declare global {
         'lord-icon': LordIconElement;
       }
     }
+    type IconProps = {
+      color?: string;
+    };
   }
+
