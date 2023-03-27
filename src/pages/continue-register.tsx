@@ -101,7 +101,7 @@ export default function ContinueRegister() {
         <div className="grid grid-cols-1 mt-20 pb-20">
           <div className="flex items-center justify-center ">
             <div className="w-full">
-              <form className="" onSubmit={onContinueRegister}>
+              <form onSubmit={onContinueRegister}>
                 <div className="space-y-5">
                   <div className="sticky flex justify-center">
                     <img
@@ -113,10 +113,10 @@ export default function ContinueRegister() {
                     <div
                       className={`${
                         isUpload && "animate-pulse"
-                      } cursor-pointer overflow-hidden absolute bottom-0 z-0 w-[120px] h-[120px] object-cover rounded-full`}
+                      } cursor-pointer overflow-hidden absolute bottom-0 z-0 w-[100px] h-[100px] object-cover rounded-full`}
                       onClick={() => inputFileRef.current.click()}
                     >
-                      <div className="absolute bottom-0 z-10 w-full text-center p-0.5 pb-1.5 font-bold bg-[#00000080] text-white">
+                      <div className="absolute bottom-0 z-10 w-full text-center p-0.5 pb-1 bg-[#00000080] text-white">
                         Upload
                       </div>
                     </div>
