@@ -17,6 +17,8 @@ module.exports = {
       primary: "var(--primary)",
       textWhite: "var(--textWhite)",
       disable: "var(--disable)",
+      iconInput: "var(--iconInput)",
+      black: "var(--black)",
     },
     fontFamily: {
       sans: ["Public Sans", "sans-serif"],

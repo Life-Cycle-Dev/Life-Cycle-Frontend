@@ -37,6 +37,7 @@
   --white: #fff;
   --iconInput: #9d9e9e;
   --disable: #d7d5d3;
+  --black: #000000;
 }
 
 input[type="date"]::-webkit-inner-spin-button,
