@@ -1,5 +1,8 @@
+import { searchFood } from "@/functions/eatCycle";
 import DateIcon from "@/icons/DateIcon";
-import React from "react";
+import SearchIcon from "@/icons/SearchIcon";
+import React, { ChangeEvent, SyntheticEvent, useState } from "react";
+import Swal from "sweetalert2";
 
 export type CardTemplateProps = {
   title: string;
@@ -18,6 +21,7 @@ export default function CardTemplate(props: CardTemplateProps) {
           <div className="text-iconInput">Data on {props.date}</div>
         </div>
       )}
+
       {props.button && (
         <button
           className="bg-primary w-full p-3 rounded-[16px] mt-5"

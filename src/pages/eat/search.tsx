@@ -1,0 +1,88 @@
+import HeaderBar from "@/components/HeaderBar";
+import Navbar from "@/components/Navbar";
+import { searchFood } from "@/functions/eatCycle";
+import SearchIcon from "@/icons/SearchIcon";
+import { GetUserInfoResponse } from "@/model/users/users";
+import { useRouter } from "next/router";
+import React, { ChangeEvent, SyntheticEvent, useState } from "react";
+import Swal from "sweetalert2";
+
+export default function SearchFood(props: {
+  user: GetUserInfoResponse;
+  setLoading: (loading: boolean) => void;
+}) {
+  const router = useRouter();
+  // const [food, setFood] = useState<string>("");
+  const handleSearchFood = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    const target = e.target as typeof e.target & {
+      food: { value: string };
+    };
+    const food = target.food.value;
+    router.push({
+      pathname: "/eat/searchResult",
+      query: { food: food },
+    });
+    // try {
+    //   props.setLoading(true);
+    //   const response = await searchFood(food);
+    //   console.log(response.result);
+    //   props.setLoading(false);
+    //   if (response.result.length == 0) {
+    //     return Swal.fire({
+    //       icon: "error",
+    //       title: "error",
+    //       text: "No result found " + food,
+    //     });
+    //   }
+    //   router.push("/eat/searchResult");
+    //   // setFoodList([response.result[0]]);
+    // } catch (error) {
+    //   props.setLoading(false);
+    //   Swal.fire({
+    //     icon: "error",
+    //     title: "error",
+    //     text: (error as Error).message,
+    //   });
+    // }
+  };
+  return (
+    <>
+      <Navbar />
+      <HeaderBar headerName="Search Food" />
+      <section>
+        <div className="bg-background w-full h-screen text-textWhite p-5">
+          <div className="mt-20 pb-20">
+            <div className="p-[30px] bg-[linear-gradient(181.35deg,rgba(255,255,255,0.5)1.15%,rgba(255,255,255,0)_98.91%)] backdrop-sepia-[blur(35px)] rounded-[30px] ">
+              <h1>Find the foof you eat 🍽️ 🥗 🍕 🍜 ✨</h1>
+              <form onSubmit={handleSearchFood}>
+                <div className="mt-2 relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <SearchIcon />
+                  </div>
+                  <div>
+                    <input
+                      type="search"
+                      placeholder="Enter your food"
+                      name="food"
+                      // value={food}
+                      // onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      //   setFood(e.target.value)
+                      // }
+                    />
+                  </div>
+                </div>
+                <button
+                  className="bg-primary w-full p-3 rounded-[16px] mt-5"
+                  type="submit"
+                >
+                  search
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
