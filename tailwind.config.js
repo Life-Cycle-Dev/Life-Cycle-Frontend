@@ -7,7 +7,27 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    screens: {
+      xl: "420px",
+      "2xl": "960px",
+    },
+    colors: {
+      background: "var(--background)",
+      backgroundInput: "var(--backgroundInput)",
+      primary: "var(--primary)",
+      textWhite: "var(--textWhite)",
+      disable: "var(--disable)",
+      iconInput: "var(--iconInput)",
+      black: "var(--black)",
+    },
+    fontFamily: {
+      sans: ["Public Sans", "sans-serif"],
+    },
+    fontSize: {
+      h1: "36px",
+      h2: "20px",
+    },
     extend: {},
   },
   plugins: [],
-}
+};

@@ -1,11 +1,6 @@
 export type UploadResponse = {
   id: number;
-  formats: {
-    small: {
-      url: string;
-    };
-  };
-  url : string;
+  url: string;
 };
 
 export enum Gender {

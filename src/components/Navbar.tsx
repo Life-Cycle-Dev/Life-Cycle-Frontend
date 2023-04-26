@@ -1,47 +1,75 @@
-import React from 'react'
-import Link from 'next/link'
+import React from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import HomeIcon from "@/icons/HomeIcon";
+import EatIcon from "@/icons/EatIcon";
 
 export default function Navbar() {
-    const router = useRouter();
+  const router = useRouter();
 
-    const links = [
-        {
-            name: "Home",
-            href: "/",
-            icon: "https://cdn.lordicon.com/slduhdil.json"
-        },
-        {
-            name: "Eat",
-            href: "/eat",
-            icon: "https://cdn.lordicon.com/rxfojtue.json"
-        },
-        {
-            name: "Profile",
-            href: "/profile",
-            icon: "https://cdn.lordicon.com/hbvyhtse.json"
-        }
-    ]
+  const links = [
+    {
+      name: "Home",
+      href: "/",
+      icon: (
+        <HomeIcon
+          color={`${
+            router.pathname === "/"
+              ? "var(--textWhite)"
+              : router.pathname.includes("/eat") ||
+                router.pathname === "/profile"
+              ? "var(--iconInput)"
+              : "var(--textWhite)"
+          }`}
+        />
+      ),
+    },
+    {
+      name: "Eat",
+      href: "/eat",
+      icon: (
+        <EatIcon
+          color={`${
+            router.pathname.includes("/eat")
+              ? "var(--textWhite)"
+              : "var(--iconInput)"
+          }`}
+        />
+      ),
+    },
+    {
+      name: "Profile",
+      href: "/profile",
+      icon: (
+        <HomeIcon
+          color={`${
+            router.pathname === "/profile"
+              ? "var(--textWhite)"
+              : "var(--iconInput)"
+          }`}
+        />
+      ),
+    },
+  ];
 
-    return (
-        <div className="shadow-lg bg-gray-50 w-full h-fit z-10 fixed bottom-0 px-5 py-3 flex justify-around items-center">
-            {
-                links.map((link, index) => {
-                    return (
-                        <Link href={link.href} key={index}>
-                            <div className={`${router.pathname === link.href ? "text-blue-600" : "text-gray-400"} text-center font-bold  hover:text-blue-600 text-xs flex flex-col items-center justify-center`}>
-                                <lord-icon
-                                    src={link.icon}
-                                    trigger={`${router.pathname === link.href ? "loop" : "hover"}`}
-                                    colors={`primary:#${router.pathname === link.href ? "2564eb" : "b4b4b4"}`}
-                                    style={{width:25,height:25}}>
-                                </lord-icon>
-                                {link.name}
-                            </div>
-                        </Link>
-                    )
-                })
-            }
-        </div>
-    )
+  return (
+    <div className="border-t	border-iconInput border-opacity-42	border-solid	 rounded bg-black w-full h-fit z-10 fixed bottom-0 p-[14px] flex justify-around items-center ">
+      {links.map((link, index) => {
+        return (
+          <Link href={link.href} key={index}>
+            <div
+              className={`${
+                router.pathname.startsWith(link.href)
+                  ? "opacity-none"
+                  : "opacity-60"
+              } text-center font-bold  text-xs flex flex-col items-center justify-center gap-1`}
+            >
+              <div>{link.icon}</div>
+              <div className={`text-iconInput text-[11px]`}>{link.name}</div>
+            </div>
+          </Link>
+        );
+      })}
+    </div>
+  );
 }
