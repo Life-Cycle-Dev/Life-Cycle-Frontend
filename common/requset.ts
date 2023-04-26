@@ -11,7 +11,7 @@ export const handleRequest: any = async (args: IHandleRequest) => {
       resolve(response.data);
     } catch (error) {  
       reject({
-        message: (((error as AxiosError).response?.data) as any).error?.message || (((error as AxiosError).response?.data) as any).message || "Something went wrong",
+        message: (((error as AxiosError).response?.data) as any)?.error?.message || (((error as AxiosError).response?.data) as any)?.message || (((error as AxiosError).response?.data)) || "Something went wrong",
       });
     }
   });
