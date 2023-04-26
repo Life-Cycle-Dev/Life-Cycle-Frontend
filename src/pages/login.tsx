@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { SyntheticEvent } from "react";
 import Swal from "sweetalert2";
 import { handleRequest } from "../../common/requset";
-import Link from "next/link";
 import { GetUserInfoResponse } from "@/model/users/users";
 import { onGoogleLogin } from "@/functions/googleAuth";
 import HeaderBar from "@/components/HeaderBar";
@@ -55,7 +54,7 @@ export default function Login(props: { user: GetUserInfoResponse }) {
 
   return (
     <div>
-      <HeaderBar headerName="Log in" />
+      <HeaderBar headerName="Log in" backRoute="/welcome" />
       <section className="bg-background w-full h-screen text-textWhite p-5">
         <div className="grid grid-cols-1 mt-20">
           <div className="w-full flex items-center justify-center">

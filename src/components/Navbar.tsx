@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import HomeIcon from "@/icons/HomeIcon";
+import EatIcon from "@/icons/EatIcon";
 
 export default function Navbar() {
   const router = useRouter();
@@ -13,7 +14,12 @@ export default function Navbar() {
       icon: (
         <HomeIcon
           color={`${
-            router.pathname === "/" ? "var(--textWhite)" : "var(--iconInput)"
+            router.pathname === "/"
+              ? "var(--textWhite)"
+              : router.pathname.includes("/eat") ||
+                router.pathname === "/profile"
+              ? "var(--iconInput)"
+              : "var(--textWhite)"
           }`}
         />
       ),
@@ -22,9 +28,11 @@ export default function Navbar() {
       name: "Eat",
       href: "/eat",
       icon: (
-        <HomeIcon
+        <EatIcon
           color={`${
-            router.pathname === "/eat" ? "var(--textWhite)" : "var(--iconInput)"
+            router.pathname.includes("/eat")
+              ? "var(--textWhite)"
+              : "var(--iconInput)"
           }`}
         />
       ),
@@ -45,25 +53,19 @@ export default function Navbar() {
   ];
 
   return (
-    <div className="shadow-[0px_-4px_17px_rgba(42,28,88,0.44)] border-t-2	border-iconInput	border-solid	 rounded-[40px_0px_0px_0px] bg-black w-full h-fit z-10 fixed bottom-0 p-5 flex justify-around items-center ">
+    <div className="border-t	border-iconInput border-opacity-42	border-solid	 rounded bg-black w-full h-fit z-10 fixed bottom-0 p-[14px] flex justify-around items-center ">
       {links.map((link, index) => {
         return (
           <Link href={link.href} key={index}>
             <div
               className={`${
-                router.pathname === link.href ? "opacity-none" : "opacity-60"
+                router.pathname.startsWith(link.href)
+                  ? "opacity-none"
+                  : "opacity-60"
               } text-center font-bold  text-xs flex flex-col items-center justify-center gap-1`}
             >
               <div>{link.icon}</div>
-              <div
-                className={`${
-                  router.pathname === link.href
-                    ? "text-textWhite"
-                    : "text-iconInput"
-                } `}
-              >
-                {link.name}
-              </div>
+              <div className={`text-iconInput text-[11px]`}>{link.name}</div>
             </div>
           </Link>
         );

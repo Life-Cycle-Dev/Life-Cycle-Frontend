@@ -256,11 +256,11 @@ export default function ContinueRegister() {
                       Update
                     </button>
                   </div>
-                  <Link href="/">
+                  <div onClick={() => (window.location.href = "/")}>
                     <div className="mt-6 text-primary font-semibold text-center">
                       Skip
                     </div>
-                  </Link>
+                  </div>
                 </div>
               </form>
             </div>

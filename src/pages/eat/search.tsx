@@ -11,40 +11,20 @@ export default function SearchFood(props: {
   setLoading: (loading: boolean) => void;
 }) {
   const router = useRouter();
-  // const [food, setFood] = useState<string>("");
+  const [food, setFood] = useState<string>("");
+
   const handleSearchFood = async (e: SyntheticEvent) => {
     e.preventDefault();
-    const target = e.target as typeof e.target & {
-      food: { value: string };
-    };
-    const food = target.food.value;
     router.push({
       pathname: "/eat/searchResult",
       query: { food: food },
     });
-    // try {
-    //   props.setLoading(true);
-    //   const response = await searchFood(food);
-    //   console.log(response.result);
-    //   props.setLoading(false);
-    // if (response.result.length == 0) {
-    //   return Swal.fire({
-    //     icon: "error",
-    //     title: "error",
-    //     text: "No result found " + food,
-    //   });
-    // }
-    //   router.push("/eat/searchResult");
-    //   // setFoodList([response.result[0]]);
-    // } catch (error) {
-    //   props.setLoading(false);
-    //   Swal.fire({
-    //     icon: "error",
-    //     title: "error",
-    //     text: (error as Error).message,
-    //   });
-    // }
   };
+
+  const handleFoodChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFood(e.target.value);
+  };
+
   return (
     <>
       <Navbar />
@@ -64,12 +44,17 @@ export default function SearchFood(props: {
                       type="search"
                       placeholder="Enter your food"
                       name="food"
+                      value={food}
+                      onChange={handleFoodChange}
                     />
                   </div>
                 </div>
                 <button
-                  className="bg-primary w-full p-3 rounded-[16px] mt-5"
+                  className={`${
+                    food && "bg-primary"
+                  } bg-background w-full p-3 rounded-[16px] mt-5`}
                   type="submit"
+                  disabled={!food}
                 >
                   search
                 </button>

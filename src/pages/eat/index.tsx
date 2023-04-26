@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import Swal from "sweetalert2";
 import HeaderBar from "@/components/HeaderBar";
-import CardTemplate from "@/components/card-template";
+import DateIcon from "@/icons/DateIcon";
+import { __String } from "typescript";
 
 export default function NewEat(props: {
   user: GetUserInfoResponse;
@@ -25,9 +26,8 @@ export default function NewEat(props: {
 
   useEffect(() => {
     props.setLoading(true);
-    getFoodOfUser()
+    getFoodOfUser(date)
       .then((response) => {
-        console.log(response);
         props.setLoading(false);
         setFoodList(response);
       })
@@ -39,7 +39,7 @@ export default function NewEat(props: {
           text: (error as Error).message,
         });
       });
-  }, []);
+  }, [date]);
 
   return (
     <>
@@ -48,12 +48,28 @@ export default function NewEat(props: {
       <section>
         <div className="bg-background w-full h-screen text-textWhite p-5">
           <div className="mt-20 pb-20 ">
-            <CardTemplate
-              title="Default Bold/Large/Title 34"
-              date={date}
-              button="add food"
-              onClickButton={() => router.push("/eat/search")}
-            />
+            <div className="p-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] rounded-[30px] ">
+              <h1>"Default Bold/Large/Title 34"</h1>
+
+              <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
+                <div className="mt-2 flex items-center text-sm text-gray-500 ">
+                  <DateIcon />
+                  <input
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    max={moment().format("YYYY-MM-DD")}
+                    className="inline-flex items-center text-sm px-3 py-2 text-iconInput"
+                  />
+                </div>
+              </div>
+              <button
+                className="bg-primary w-full p-3 rounded-[16px] mt-5"
+                onClick={() => router.push("/eat/search")}
+              >
+                add food
+              </button>
+            </div>
             <div>
               <div className="flex rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-4  mt-6 boredr-2">
                 <div className="flex-auto">
