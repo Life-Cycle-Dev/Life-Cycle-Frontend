@@ -5,7 +5,6 @@ import SearchIcon from "@/icons/SearchIcon";
 import { GetUserInfoResponse } from "@/model/users/users";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, SyntheticEvent, useState } from "react";
-import Swal from "sweetalert2";
 
 export default function SearchFood(props: {
   user: GetUserInfoResponse;
@@ -28,13 +27,13 @@ export default function SearchFood(props: {
     //   const response = await searchFood(food);
     //   console.log(response.result);
     //   props.setLoading(false);
-    //   if (response.result.length == 0) {
-    //     return Swal.fire({
-    //       icon: "error",
-    //       title: "error",
-    //       text: "No result found " + food,
-    //     });
-    //   }
+    // if (response.result.length == 0) {
+    //   return Swal.fire({
+    //     icon: "error",
+    //     title: "error",
+    //     text: "No result found " + food,
+    //   });
+    // }
     //   router.push("/eat/searchResult");
     //   // setFoodList([response.result[0]]);
     // } catch (error) {
@@ -53,11 +52,11 @@ export default function SearchFood(props: {
       <section>
         <div className="bg-background w-full h-screen text-textWhite p-5">
           <div className="mt-20 pb-20">
-            <div className="p-[30px] bg-[linear-gradient(181.35deg,rgba(255,255,255,0.5)1.15%,rgba(255,255,255,0)_98.91%)] backdrop-sepia-[blur(35px)] rounded-[30px] ">
-              <h1>Find the foof you eat 🍽️ 🥗 🍕 🍜 ✨</h1>
+            <div className="p-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] rounded-[30px] ">
+              <h1>Find the food you eat 🍽️ 🥗 🍕 🍜 ✨</h1>
               <form onSubmit={handleSearchFood}>
-                <div className="mt-2 relative">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <div className="mt-2 relative border border-primary rounded-[10px]">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none  ">
                     <SearchIcon />
                   </div>
                   <div>
@@ -65,10 +64,6 @@ export default function SearchFood(props: {
                       type="search"
                       placeholder="Enter your food"
                       name="food"
-                      // value={food}
-                      // onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      //   setFood(e.target.value)
-                      // }
                     />
                   </div>
                 </div>

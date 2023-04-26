@@ -17,11 +17,11 @@ export default function NewEat(props: {
   const [foodList, setFoodList] = useState<any[]>([]);
   const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
 
-  // if (!isServer) {
-  //   if (!props.user) {
-  //     router.push("/login");
-  //   }
-  // }
+  if (!isServer) {
+    if (!props.user) {
+      router.push("/login");
+    }
+  }
 
   useEffect(() => {
     props.setLoading(true);
@@ -41,51 +41,21 @@ export default function NewEat(props: {
       });
   }, []);
 
-  // const onChangeDate = (e: any) => {
-  //   props.setLoading(true);
-  //   setDate(e.target.value);
-  //   getFoodOfUser(e.target.value)
-  //     .then((response) => {
-  //       console.log(response);
-  //       props.setLoading(false);
-  //       setFoodList(response);
-  //     })
-  //     .catch((error) => {
-  //       props.setLoading(false);
-  //       Swal.fire({
-  //         icon: "error",
-  //         title: "error",
-  //         text: (error as Error).message,
-  //       });
-  //     });
-  // };
-
   return (
     <>
       <Navbar />
-      <HeaderBar headerName="Eat Cycle" />
+      <HeaderBar headerName="Eat Cycle" backRoute="/" />
       <section>
         <div className="bg-background w-full h-screen text-textWhite p-5">
-          <div className="mt-20 pb-20">
+          <div className="mt-20 pb-20 ">
             <CardTemplate
               title="Default Bold/Large/Title 34"
               date={date}
               button="add food"
               onClickButton={() => router.push("/eat/search")}
             />
-
-            {/* <div className="mt-3  gap-5 lg:mt-0 lg:ml-4 flex align-center">
-            <span className="sm:ml-3">
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => onChangeDate(e)}
-                max={moment().format("YYYY-MM-DD")}
-              />
-            </span>
-          </div> */}
             <div>
-              <div className="flex rounded-[30px] bg-[linear-gradient(181.35deg,rgba(255,255,255,0.5)1.15%,rgba(255,255,255,0)_98.91%)] backdrop-sepia-[blur(35px)] gap-4 p-4  mt-6">
+              <div className="flex rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-4  mt-6 boredr-2">
                 <div className="flex-auto">
                   <div className="flex flex-wrap">
                     <div className="flex-auto text-lg text-white font-semibold">
@@ -95,14 +65,14 @@ export default function NewEat(props: {
                       {/* calculate cals */}
                       {foodList.reduce((a, b) => a + b.calorie, 0)} cals
                     </div>
-                    <div className="w-full flex-none text-sm font-medium text-gray-200 mt-2">
+                    <div className="w-full flex-none text-sm font-medium text-gray-200 mt-2 ">
                       {foodList.length} foods
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div>
+            <div className="mb-10">
               {foodList.map((food, index) => {
                 return (
                   <div

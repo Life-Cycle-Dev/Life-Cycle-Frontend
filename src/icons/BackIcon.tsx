@@ -1,10 +1,14 @@
 import { useRouter } from "next/router";
 import React from "react";
 
-export default function BackIcon() {
+export default function BackIcon(props: { backRoute?: string }) {
   const router = useRouter();
   const onBackPage = () => {
-    router.back();
+    if (props.backRoute) {
+      router.push(props.backRoute);
+    } else {
+      router.back();
+    }
   };
   return (
     <svg
