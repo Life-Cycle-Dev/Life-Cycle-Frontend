@@ -29,7 +29,7 @@ export default function EatChart(props: {
   onLoad: (loading: boolean) => void;
 }) {
 
-  let options = {
+  let options:any = {
     responsive: true,
     plugins: {
       title: {
@@ -42,7 +42,7 @@ export default function EatChart(props: {
         display: function(context:any) {
           var index = context.dataIndex;
           var value = context.dataset.data[index];
-          return value > 0; // display labels with an odd index
+          return value > 0; 
         },
         color: '#ffffff',
         anchor: 'end',
