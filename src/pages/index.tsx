@@ -10,14 +10,13 @@ export default function Home(props: {
   user: GetUserInfoResponse;
   setLoading: (loading: boolean) => void;
 }) {
-  const router = useRouter();
   const isServer = typeof window === "undefined";
-
   const [foodList, setFoodList] = useState<any[]>([]);
 
   if (!isServer) {
     if (!props.user) {
-      router.push("/login");
+      window.location.href = "/welcome";
+      return
     }
   }
 
@@ -25,7 +24,6 @@ export default function Home(props: {
     props.setLoading(true);
     getFoodOfUser()
       .then((response) => {
-        console.log(response);
         props.setLoading(false);
         setFoodList(response);
       })

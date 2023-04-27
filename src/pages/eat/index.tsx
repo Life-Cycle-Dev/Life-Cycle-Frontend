@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import HeaderBar from "@/components/HeaderBar";
 import DateIcon from "@/icons/DateIcon";
 import { __String } from "typescript";
+import EatChart from "@/components/chart/EatChart";
 
 export default function NewEat(props: {
   user: GetUserInfoResponse;
@@ -17,10 +18,11 @@ export default function NewEat(props: {
   const isServer = typeof window === "undefined";
   const [foodList, setFoodList] = useState<any[]>([]);
   const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
+  const [onLoadChart, setOnLoadChart] = useState<boolean>(true)
 
   if (!isServer) {
     if (!props.user) {
-      router.push("/login");
+      router.push("/");
     }
   }
 
@@ -49,7 +51,7 @@ export default function NewEat(props: {
         <div className="bg-background w-full h-screen text-textWhite p-5">
           <div className="mt-20 pb-20 ">
             <div className="p-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] rounded-[30px] ">
-              <h1>"Default Bold/Large/Title 34"</h1>
+              <h1>Record your food</h1>
 
               <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
                 <div className="mt-2 flex items-center text-sm text-gray-500 ">
@@ -70,30 +72,37 @@ export default function NewEat(props: {
                 add food
               </button>
             </div>
-            <div>
-              <div className="flex rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-4  mt-6 boredr-2">
-                <div className="flex-auto">
-                  <div className="flex flex-wrap">
-                    <div className="flex-auto text-lg text-white font-semibold">
-                      {date}
-                    </div>
-                    <div className="text-lg font-semibold text-gray-200">
-                      {/* calculate cals */}
-                      {foodList.reduce((a, b) => a + b.calorie, 0)} cals
-                    </div>
-                    <div className="w-full flex-none text-sm font-medium text-gray-200 mt-2 ">
-                      {foodList.length} foods
-                    </div>
+
+            <div className="flex rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2">
+              <div className="flex-auto">
+                <div className="flex flex-wrap">
+                  <div className="flex-auto text-lg text-white font-semibold">
+                    {date}
+                  </div>
+                  <div className="text-lg font-semibold text-gray-200">
+                    {/* calculate cals */}
+                    {foodList.reduce((a, b) => a + b.calorie, 0)} cals
+                  </div>
+                  <div className="w-full flex-none text-sm font-medium text-gray-200 mt-2 ">
+                    {foodList.length} food(s)
                   </div>
                 </div>
               </div>
             </div>
+
+            <div className={`rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2`}> 
+              <div className="mb-3 font-bold text-primary text-xl">Eat Cycle Dashboard</div>  
+              <div className={`${onLoadChart && 'animate-pulse'}`}>
+                <EatChart onLoad={setOnLoadChart} />
+              </div>    
+            </div>
+
             <div className="mb-10">
               {foodList.map((food, index) => {
                 return (
                   <div
                     key={index}
-                    className="flex rounded-[15px] bg-backgroundInput gap-4 px-4 py-2 mt-6"
+                    className="flex rounded-[15px] bg-backgroundInput gap-4 p-4 mt-6"
                   >
                     <div className="flex-none w-11 relative ">
                       <img

@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { GetUserInfoResponse } from "@/model/users/users";
 import Navbar from "@/components/Navbar";
-import Header from "@/components/Header";
 import { searchFood, insertFood } from "@/functions/eatCycle";
 import { ChangeEvent } from "react";
 import Swal from "sweetalert2";
@@ -28,7 +27,6 @@ export default function Eat(props: {
     try {
       props.setLoading(true);
       const response = await searchFood(food);
-      console.log(response.result);
       props.setLoading(false);
       if (response.result.length == 0) {
         return Swal.fire({
