@@ -36,6 +36,9 @@ export default function Login(props: { user: GetUserInfoResponse }) {
           title: `Hello ${res.user.name}`,
           showConfirmButton: false,
           timer: 1500,
+          background: "var(--background)",
+          color: "var(--textWhite)",
+          iconColor: "var(--primary)",
         });
         window.location.href = "/";
       });

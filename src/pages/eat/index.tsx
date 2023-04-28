@@ -11,15 +11,14 @@ import { __String } from "typescript";
 import EatChart from "@/components/chart/EatChart";
 import { formatDate } from "@/functions/common";
 
-export default function NewEat(props: {
+export default function Eat(props: {
   user: GetUserInfoResponse;
   setLoading: (loading: boolean) => void;
 }) {
   const router = useRouter();
   const [foodList, setFoodList] = useState<any[]>([]);
   const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
-  const [onLoadChart, setOnLoadChart] = useState<boolean>(true)
-
+  const [onLoadChart, setOnLoadChart] = useState<boolean>(true);
 
   useEffect(() => {
     getFoodOfUser(date)
@@ -75,7 +74,10 @@ export default function NewEat(props: {
                   </div>
                   <div className="text-lg font-semibold text-gray-200">
                     {/* calculate cals */}
-                    {foodList.reduce((a, b) => a + b.calorie, 0).toFixed(1)} cals
+                    {foodList
+                      .reduce((a, b) => a + b.calorie, 0)
+                      .toFixed(1)}{" "}
+                    cals
                   </div>
                   <div className="w-full flex-none text-sm font-medium text-gray-200 mt-2 ">
                     {foodList.length} food(s)
@@ -84,12 +86,18 @@ export default function NewEat(props: {
               </div>
             </div>
 
-            <div className={`rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2`}> 
-              <div className="mb-3 font-bold text-primary text-xl">Eat Cycle Dashboard</div>  
-              <div className={`${onLoadChart && 'animate-pulse'}`}>
-                <EatChart onLoad={setOnLoadChart}
-                          currentDate={new Date(date)} />
-              </div>    
+            <div
+              className={`rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2`}
+            >
+              <div className="mb-3 font-bold text-primary text-xl">
+                Eat Cycle Dashboard
+              </div>
+              <div className={`${onLoadChart && "animate-pulse"}`}>
+                <EatChart
+                  onLoad={setOnLoadChart}
+                  currentDate={new Date(date)}
+                />
+              </div>
             </div>
 
             <div className="mb-10">
@@ -108,7 +116,7 @@ export default function NewEat(props: {
                     </div>
                     <div className="flex-auto">
                       <div className="flex flex-wrap">
-                        <div className="flex-auto text-lg font-semibold text-textWhite">
+                        <div className="flex-auto text-[15px] font-semibold text-textWhite">
                           {food.name}
                         </div>
                         <div className="text-lg font-semibold text-textWhite">

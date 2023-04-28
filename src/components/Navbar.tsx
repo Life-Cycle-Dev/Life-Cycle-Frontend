@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import HomeIcon from "@/icons/HomeIcon";
 import EatIcon from "@/icons/EatIcon";
+import MoonIcon from "@/icons/MoonIcon";
+import ProfileIcon from "@/icons/ProfileIcon";
 
 export default function Navbar() {
   const router = useRouter();
@@ -15,11 +17,12 @@ export default function Navbar() {
         <HomeIcon
           color={`${
             router.pathname === "/"
-              ? "var(--textWhite)"
+              ? "var(--primary)"
               : router.pathname.includes("/eat") ||
-                router.pathname === "/profile"
+                router.pathname === "/profile" ||
+                router.pathname.includes("/sleep")
               ? "var(--iconInput)"
-              : "var(--textWhite)"
+              : "var(--primary)"
           }`}
         />
       ),
@@ -31,7 +34,20 @@ export default function Navbar() {
         <EatIcon
           color={`${
             router.pathname.includes("/eat")
-              ? "var(--textWhite)"
+              ? "var(--primary)"
+              : "var(--iconInput)"
+          }`}
+        />
+      ),
+    },
+    {
+      name: "Sleep",
+      href: "/sleep",
+      icon: (
+        <MoonIcon
+          color={`${
+            router.pathname.includes("/sleep")
+              ? "var(--primary)"
               : "var(--iconInput)"
           }`}
         />
@@ -41,10 +57,10 @@ export default function Navbar() {
       name: "Profile",
       href: "/profile",
       icon: (
-        <HomeIcon
+        <ProfileIcon
           color={`${
             router.pathname === "/profile"
-              ? "var(--textWhite)"
+              ? "var(--primary)"
               : "var(--iconInput)"
           }`}
         />
@@ -57,15 +73,8 @@ export default function Navbar() {
       {links.map((link, index) => {
         return (
           <Link href={link.href} key={index}>
-            <div
-              className={`${
-                router.pathname.startsWith(link.href)
-                  ? "opacity-none"
-                  : "opacity-60"
-              } text-center font-bold  text-xs flex flex-col items-center justify-center gap-1`}
-            >
+            <div className="flex flex-col items-center justify-center ">
               <div>{link.icon}</div>
-              <div className={`text-iconInput text-[11px]`}>{link.name}</div>
             </div>
           </Link>
         );
