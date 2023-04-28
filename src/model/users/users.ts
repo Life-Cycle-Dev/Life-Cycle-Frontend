@@ -19,12 +19,3 @@ export type GetUserInfoResponse = {
   weight: number;
   profileImage: UploadResponse;
 };
-
-export type GetSummaryPerDate = {
-  date: string;
-  id: number;
-  bedTime: Date;
-  wakeUpTime: Date;
-  totalSleepTime: number;
-  totalSnoringTime: number;
-};

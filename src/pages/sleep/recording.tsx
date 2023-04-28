@@ -1,6 +1,6 @@
 import HeaderBar from "@/components/HeaderBar";
 import Navbar from "@/components/Navbar";
-import { GetSummaryPerDate, GetUserInfoResponse } from "@/model/users/users";
+import { GetUserInfoResponse } from "@/model/users/users";
 import React, { useState, useRef, useEffect } from "react";
 import Swal from "sweetalert2";
 import {
@@ -8,9 +8,7 @@ import {
   getSummarySleepTime,
   updateTimeSleep,
 } from "@/functions/sleepCycle";
-import { formatDate, formatTime, getThaiDate } from "@/functions/common";
-import { RequestMethod } from "@/model/common/common";
-import axios from "axios";
+import { getThaiDate } from "@/functions/common";
 
 type Time = {
   hours: number;

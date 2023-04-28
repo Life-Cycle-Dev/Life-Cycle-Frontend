@@ -2,7 +2,6 @@ import { RequestMethod } from "@/model/common/common";
 import { handleRequest } from "../../common/requset";
 import { formatDate, getThaiDate } from "./common";
 import axios from "axios";
-import { GetSummaryPerDate } from "@/model/users/users";
 
 export const createTimeSleep = async () => {
   try {
