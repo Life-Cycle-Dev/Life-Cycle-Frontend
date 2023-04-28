@@ -10,6 +10,8 @@ import DateIcon from "@/icons/DateIcon";
 import { __String } from "typescript";
 import EatChart from "@/components/chart/EatChart";
 import { formatDate } from "@/functions/common";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Eat(props: {
   user: GetUserInfoResponse;
@@ -36,6 +38,13 @@ export default function Eat(props: {
       });
   }, [date]);
 
+  const onChangeDate = (date: Date | null) => {
+    if (!date) {
+      return;
+    }
+    setDate(moment(date).format("YYYY-MM-DD"));
+  }
+
   return (
     <>
       <Navbar />
@@ -45,15 +54,13 @@ export default function Eat(props: {
           <div className="mt-20 pb-20 ">
             <div className="p-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] rounded-[30px] ">
               <h1>Record your food</h1>
-
               <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
                 <div className="mt-2 flex items-center text-sm text-gray-500 ">
                   <DateIcon />
-                  <input
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    max={moment().format("YYYY-MM-DD")}
+                  <DatePicker
+                    onChange={(date) => onChangeDate(date)}
+                    selected={new Date(date)}
+                    maxDate={new Date()}
                     className="inline-flex items-center text-sm px-3 py-2 text-iconInput"
                   />
                 </div>
@@ -86,17 +93,11 @@ export default function Eat(props: {
               </div>
             </div>
 
-            <div
-              className={`rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2`}
-            >
-              <div className="mb-3 font-bold text-primary text-xl">
-                Eat Cycle Dashboard
-              </div>
-              <div className={`${onLoadChart && "animate-pulse"}`}>
-                <EatChart
-                  onLoad={setOnLoadChart}
-                  currentDate={new Date(date)}
-                />
+            <div className={`rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2`}>
+              <div className="mb-3 font-bold text-primary text-xl">Eat Cycle Dashboard</div>
+              <div className={`${onLoadChart && 'animate-pulse'}`}>
+                <EatChart onLoad={setOnLoadChart}
+                  currentDate={new Date(date)} />
               </div>
             </div>
 

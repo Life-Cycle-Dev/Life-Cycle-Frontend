@@ -30,6 +30,7 @@ export default function EatChart(props: {
 
   let options:any = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       title: {
         display: false
@@ -63,13 +64,13 @@ export default function EatChart(props: {
         }
       },
       y: {
-        stepSize: 200,
+        stepSize: 250,
         grid: {
           display: false,
         },
         ticks: {
           color: '#ffffff',
-          stepSize: 200,
+          stepSize: 250,
           font: {
             size: 10,
           }
