@@ -55,6 +55,7 @@ export default function Register(props: { user: GetUserInfoResponse }) {
         icon: "success",
         title: "Registered",
         showConfirmButton: false,
+        iconColor: "var(--primary)",
         timer: 1500,
       });
       await router.push("/continue-register");

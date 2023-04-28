@@ -40,6 +40,14 @@
   --black: #000000;
 }
 
+.swal2-popup{
+  color: var(--textWhite) !important;
+  background: var(--background) !important;
+}
+.swal2-styled.swal2-confirm {
+  background-color: var(--primary) !important;
+}
+
 @media screen and (min-width: 800px) {
   .container-app{
     width: 600px;

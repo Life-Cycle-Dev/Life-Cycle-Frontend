@@ -85,6 +85,7 @@ export default function ContinueRegister() {
         title: "Updated Personal Information",
         showConfirmButton: false,
         timer: 1500,
+        iconColor: "var(--primary)",
       });
       window.location.href = "/";
     } catch (error) {

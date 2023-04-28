@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import {
   Gender,
   GetUserInfoResponse,
@@ -23,27 +22,29 @@ import MaleIcon from "@/icons/MaleIcon";
 import moment from "moment";
 import HeightIcon from "@/icons/HeightIcon";
 import WeightIcon from "@/icons/WeightIcon";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Profile(props: { user: GetUserInfoResponse }) {
   const inputFileRef = useRef<any>();
-  const inputDateRef = useRef<any>();
 
   const [gender, setGender] = useState<Gender>(Gender.FEMALE);
   const [userImgId, setUserImgId] = useState<number>(-1);
   const [userImgUrl, setUserImgUrl] = useState<string>("");
+  const [birthDate, setBirthDate] = useState<Date | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token") || "";
     getUser(token)
       .then((user: any) => {
         if (user) {
-          inputDateRef.current.value = user.birthdate;
+          setBirthDate(user.birthdate ? new Date(user.birthdate) : null);
           setUserImgId(user?.profileImage?.id);
           setGender(user?.gender);
           setUserImgUrl(user?.profileImage?.url);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const [isUpload, setIsUpload] = useState<boolean>(false);
@@ -82,7 +83,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
       const gender = target.gender.value;
       const height = target.height.value;
       const weight = target.weight.value;
-      const date = target.birth_date.value;
+      const date = birthDate ? moment(birthDate).format("YYYY-MM-DD") : null;
       const jwt = localStorage.getItem("token") || "";
 
       const data: any = {
@@ -111,8 +112,6 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
         title: "Updated Personal Information",
         showConfirmButton: false,
         timer: 1500,
-        background: "var(--background)",
-        color: "var(--textWhite)",
         iconColor: "var(--primary)",
       });
       window.location.href = "/";
@@ -137,6 +136,11 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
       });
     }
   };
+
+  const onChangeDate = (date: Date | null) => {
+    setBirthDate(date);
+  }
+
   return (
     <div>
       <HeaderBar headerName="Profile" />
@@ -149,14 +153,12 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                   <div className="sticky flex justify-center">
                     <img
                       src={userImgUrl ? userImgUrl : "asset/profile icon.png"}
-                      className={`${
-                        isUpload && "animate-pulse"
-                      } bottom-0 left-0 z-0 rounded-full w-[100px] h-[100px] object-cover`}
+                      className={`${isUpload && "animate-pulse"
+                        } bottom-0 left-0 z-0 rounded-full w-[100px] h-[100px] object-cover`}
                     />
                     <div
-                      className={`${
-                        isUpload && "animate-pulse"
-                      } w-[100px] h-[100px] object-cover cursor-pointer overflow-hidden absolute  bottom-0 z-0 rounded-full`}
+                      className={`${isUpload && "animate-pulse"
+                        } w-[100px] h-[100px] object-cover cursor-pointer overflow-hidden absolute  bottom-0 z-0 rounded-full`}
                       onClick={() => inputFileRef.current.click()}
                     >
                       <div className="absolute bottom-0 z-10 w-full text-center p-0.5 pb-1 bg-[#00000080] text-white">
@@ -194,20 +196,20 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                   </div>
 
                   <div>
-                    <label htmlFor="gender" className="text-dark font-medium">
-                      {" "}
+                    <label
+                      htmlFor="birthDate"
+                      className="text-base font-medium text-gray-900"
+                    >
                       Birth Date{" "}
                     </label>
                     <div className="mt-2.5 relative text-gray-400 focus-within:text-gray-600">
-                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                      <div className="absolute inset-y-0 left-0 flex items-center z-10 pl-3 pointer-events-none">
                         <DateIcon />
                       </div>
-                      <input
-                        type="date"
-                        name="birth_date"
-                        id="birth_date"
-                        ref={inputDateRef}
-                        max={moment().format("YYYY-MM-DD")}
+                      <DatePicker
+                        onChange={(date) => onChangeDate(date)}
+                        selected={birthDate}
+                        maxDate={new Date()}
                         className="inline-flex items-center text-sm pl-10 py-[1rem] text-textWhite"
                       />
                     </div>
@@ -221,37 +223,33 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                     <div className="mt-2.5 relative text-gray-600 focus-within:text-gray-600">
                       <div className="flex gap-4">
                         <div
-                          className={`${
-                            gender === Gender.FEMALE &&
+                          className={`${gender === Gender.FEMALE &&
                             "border border-primary text-primary"
-                          } flex gap-3 items-center w-[50%] py-4 rounded-xl bg-backgroundInput cursor-pointer `}
+                            } flex gap-3 items-center w-[50%] py-4 rounded-xl bg-backgroundInput cursor-pointer `}
                           onClick={() => setGender(Gender.FEMALE)}
                         >
                           <div className="flex items-center pl-3 pointer-events-none">
                             <FemaleIcon
-                              color={`${
-                                gender === Gender.FEMALE
-                                  ? "var(--primary)"
-                                  : "var(--iconInput)"
-                              }`}
+                              color={`${gender === Gender.FEMALE
+                                ? "var(--primary)"
+                                : "var(--iconInput)"
+                                }`}
                             />
                           </div>
                           Female
                         </div>
                         <div
-                          className={`${
-                            gender === Gender.MALE &&
+                          className={`${gender === Gender.MALE &&
                             "border border-primary text-primary"
-                          } flex gap-3 items-center w-[50%] py-4 rounded-xl bg-backgroundInput cursor-pointer `}
+                            } flex gap-3 items-center w-[50%] py-4 rounded-xl bg-backgroundInput cursor-pointer `}
                           onClick={() => setGender(Gender.MALE)}
                         >
                           <div className="flex items-center pl-3 pointer-events-none">
                             <MaleIcon
-                              color={`${
-                                gender === Gender.MALE
-                                  ? "var(--primary)"
-                                  : "var(--iconInput)"
-                              }`}
+                              color={`${gender === Gender.MALE
+                                ? "var(--primary)"
+                                : "var(--iconInput)"
+                                }`}
                             />
                           </div>
                           Male
@@ -317,11 +315,10 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                   <div>
                     <button
                       type="submit"
-                      className={`${
-                        isUpload
-                          ? "bg-disable"
-                          : "bg-primary focus:outline-none"
-                      } inline-flex items-center justify-center w-full px-4 py-4 rounded-3xl font-semibold`}
+                      className={`${isUpload
+                        ? "bg-disable"
+                        : "bg-primary focus:outline-none"
+                        } inline-flex items-center justify-center w-full px-4 py-4 rounded-3xl font-semibold`}
                     >
                       Save
                     </button>
