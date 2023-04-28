@@ -25,7 +25,7 @@ ChartJS.register(
 
 export default function EatChart(props: {
   onLoad: (loading: boolean) => void,
-  startDate?: Date,
+  currentDate?: Date,
 }) {
 
   let options:any = {
@@ -90,14 +90,14 @@ export default function EatChart(props: {
   })
 
   useEffect(() => {
-    const startDate:Date = props.startDate ? props.startDate : new Date()
+    const startDate:Date = props.currentDate ? props.currentDate : new Date()
     getData(startDate);
-  }, [props.startDate])
+  }, [props.currentDate])
 
-  const getData = async (startDate:Date) => {
+  const getData = async (currentDate:Date) => {
     let total = [0, 0, 0, 0, 0, 0, 0]
     let dateString = ['', '', '', '', '', '', '']
-    startDate = new Date(startDate.valueOf() - 6 * 24 * 60 * 60 * 1000)
+    let startDate = new Date(currentDate.valueOf() - 6 * 24 * 60 * 60 * 1000)
     for (let index = 0; index < 7; index++) {
       const data = await getFoodOfUser(formatDate(startDate))
       const totalCalories = await data.reduce((total: number, food: any) => total + food.calorie, 0).toFixed(1)

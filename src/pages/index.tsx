@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { GetUserInfoResponse } from "@/model/users/users";
 import Navbar from "@/components/Navbar";
 import { useState, useEffect } from "react";
@@ -10,15 +9,7 @@ export default function Home(props: {
   user: GetUserInfoResponse;
   setLoading: (loading: boolean) => void;
 }) {
-  const isServer = typeof window === "undefined";
   const [foodList, setFoodList] = useState<any[]>([]);
-
-  // if (!isServer) {
-  //   if (!props.user) {
-  //     window.location.href = "/welcome";
-  //     return
-  //   }
-  // }
 
   useEffect(() => {
     props.setLoading(true);

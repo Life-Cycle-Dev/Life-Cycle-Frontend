@@ -88,7 +88,7 @@ export default function NewEat(props: {
               <div className="mb-3 font-bold text-primary text-xl">Eat Cycle Dashboard</div>  
               <div className={`${onLoadChart && 'animate-pulse'}`}>
                 <EatChart onLoad={setOnLoadChart}
-                          startDate={new Date(date)} />
+                          currentDate={new Date(date)} />
               </div>    
             </div>
 
