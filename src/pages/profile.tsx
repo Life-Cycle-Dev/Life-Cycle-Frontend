@@ -188,7 +188,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                         name="name"
                         id="name"
                         defaultValue={props.user?.name}
-                        placeholder="Weight (kg.)"
+                        placeholder="Name"
                       />
                     </div>
                   </div>

@@ -1,5 +1,5 @@
 import { GetUserInfoResponse } from "@/model/users/users";
-import { RequestMethod } from "./../src/model/common/common";
+import { RequestMethod } from "../src/model/common/common";
 import axios from "axios";
 
 export const getUser = async (jwt: string): Promise<GetUserInfoResponse> => {

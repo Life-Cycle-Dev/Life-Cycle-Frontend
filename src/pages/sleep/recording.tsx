@@ -1,10 +1,16 @@
 import HeaderBar from "@/components/HeaderBar";
 import Navbar from "@/components/Navbar";
-import { GetUserInfoResponse } from "@/model/users/users";
-import React, { useState, useRef } from "react";
-import { handleRequest } from "../../../common/requset";
-import { RequestMethod } from "@/model/common/common";
+import { GetSummaryPerDate, GetUserInfoResponse } from "@/model/users/users";
+import React, { useState, useRef, useEffect } from "react";
 import Swal from "sweetalert2";
+import {
+  createTimeSleep,
+  getSummarySleepTime,
+  updateTimeSleep,
+} from "@/functions/sleepCycle";
+import { formatDate, formatTime, getThaiDate } from "@/functions/common";
+import { RequestMethod } from "@/model/common/common";
+import axios from "axios";
 
 type Time = {
   hours: number;
@@ -16,52 +22,114 @@ export default function Recording(props: {
   user: GetUserInfoResponse;
   setLoading: (loading: boolean) => void;
 }) {
-  const [recording, setRecording] = useState(false);
   const [audioURL, setAudioURL] = useState("");
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
-  const [time, setTime] = useState<Time>({ hours: 0, minutes: 0, seconds: 0 });
+  const [times, setTimes] = useState<Time>({
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
   const [running, setRunning] = useState(false);
-  const intervalRef = useRef<number>();
-  const [timeId, setTimeId] = useState();
+  const [timeId, setTimeId] = useState<number>(-1);
+
+  useEffect(() => {
+    getSleepTime();
+  }, []);
+
+  const timer = (bedTime: Date) => {
+    const intervel = setInterval(() => {
+      const now: Date = new Date();
+      const sleepTime: number = now.getTime() - bedTime.getTime();
+      if (localStorage.getItem("timer") === "true") {
+        setTimes(() => {
+          const seconds = Math.floor((sleepTime / 1000) % 60);
+          const minutes = Math.floor((sleepTime / (1000 * 60)) % 60);
+          const hours = Math.floor((sleepTime / (1000 * 60 * 60)) % 24);
+          return {
+            hours: hours,
+            minutes: minutes,
+            seconds: seconds,
+          };
+        });
+      } else {
+        clearInterval(intervel);
+      }
+    }, 1000);
+  };
+
+  const getSleepTime = async () => {
+    try {
+      const summarySleepTime = await getSummarySleepTime();
+      const bedTime = new Date(summarySleepTime[0].bedTime);
+      const now: Date = summarySleepTime[0].wakeUpTime
+        ? new Date(summarySleepTime[0].wakeUpTime)
+        : new Date();
+      if (summarySleepTime[0].wakeUpTime) {
+        now.setHours(now.getHours() - 7);
+      }
+      bedTime.setHours(bedTime.getHours() - 7);
+      timer(bedTime);
+      setRunning(summarySleepTime[0].wakeUpTime === null);
+      localStorage.setItem(
+        "timer",
+        summarySleepTime[0].wakeUpTime === null ? "true" : "false"
+      );
+      setTimeId(summarySleepTime[0].id);
+      const sleepTime: number = now.getTime() - bedTime.getTime();
+      setTimes(() => {
+        const seconds = Math.floor((sleepTime / 1000) % 60);
+        const minutes = Math.floor((sleepTime / (1000 * 60)) % 60);
+        const hours = Math.floor((sleepTime / (1000 * 60 * 60)) % 24);
+        return {
+          hours: hours,
+          minutes: minutes,
+          seconds: seconds,
+        };
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "error",
+        text: (error as Error).message,
+      });
+    }
+  };
 
   const handleRecord = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      setRecording(true);
+      setRunning(true);
+      await handleCreateOrUpdateTimeSleep();
+      if (localStorage.getItem("timer") == "false") {
+        localStorage.setItem("timer", "true");
+        setTimes({
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+        });
+        await timer(new Date());
+      }
       mediaRecorderRef.current = new MediaRecorder(stream);
-
       mediaRecorderRef.current.addEventListener(
         "dataavailable",
         handleDataAvailable
       );
       mediaRecorderRef.current.start();
-      const response = await handleRequest({
-        path: `${process.env.NEXT_PUBLIC_BACKEND_PATH}/api/lca/insertTimeSleep`,
-        method: RequestMethod.POST,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
-        },
-        data: {
-          bedTime: "2023-01-20T00:00:00.001Z",
-        },
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "error",
+        text: (error as Error).message,
       });
-      await setTimeId(response.id);
-      if (!running) {
-        intervalRef.current = window.setInterval(() => {
-          setTime((prevTime) => {
-            const seconds = prevTime.seconds + 1;
-            const minutes = prevTime.minutes + (seconds === 60 ? 1 : 0);
-            const hours = prevTime.hours + (minutes === 60 ? 1 : 0);
-            return {
-              hours: hours,
-              minutes: minutes % 60,
-              seconds: seconds % 60,
-            };
-          });
-        }, 1000);
-        setRunning(true);
-      }
+    }
+  };
+
+  const handleCreateOrUpdateTimeSleep = async () => {
+    try {
+      const id: any = await createTimeSleep();
+      await setTimeId(id);
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -81,23 +149,12 @@ export default function Recording(props: {
     try {
       if (mediaRecorderRef.current) {
         mediaRecorderRef.current.stop();
-        setRecording(false);
       }
-      if (running) {
-        window.clearInterval(intervalRef.current);
-        setRunning(false);
-      }
-      await handleRequest({
-        path: `${process.env.NEXT_PUBLIC_BACKEND_PATH}/api/lca/updateTimeSleep`,
-        method: RequestMethod.PUT,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
-        },
-        data: {
-          id: timeId,
-          wakeUpTime: new Date(),
-        },
+      localStorage.setItem("timer", "false");
+      await updateTimeSleep(timeId, {
+        wakeUpTime: getThaiDate(new Date()),
       });
+      setRunning(false);
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -107,9 +164,9 @@ export default function Recording(props: {
     }
   };
 
-  const formattedTime = `${time.hours < 10 ? "0" : ""}${time.hours}:${
-    time.minutes < 10 ? "0" : ""
-  }${time.minutes}:${time.seconds < 10 ? "0" : ""}${time.seconds}`;
+  const formattedTime = `${times.hours < 10 ? "0" : ""}${times.hours}:${
+    times.minutes < 10 ? "0" : ""
+  }${times.minutes}:${times.seconds < 10 ? "0" : ""}${times.seconds}`;
 
   return (
     <>
@@ -118,6 +175,7 @@ export default function Recording(props: {
       <section>
         <div className="bg-background w-full h-screen text-textWhite p-5">
           <div className="mt-20 pb-20 ">
+            <div className="w-full text-center">You have been sleeping for</div>
             <div className="flex w-full text-[48px] font-bold	justify-center">
               {formattedTime}
             </div>
@@ -129,7 +187,7 @@ export default function Recording(props: {
               onClick={handleRecord}
               disabled={running}
             >
-              {running ? "Recording..." : "Start Record"}
+              {running ? "It's always time for a nap..." : "I will go to bed"}
             </button>
 
             <button
@@ -139,7 +197,7 @@ export default function Recording(props: {
               onClick={stopRecording}
               disabled={!running}
             >
-              Stop Record
+              I am awake now
             </button>
             <div className="mt-2">
               {audioURL && <audio src={audioURL} controls />}
