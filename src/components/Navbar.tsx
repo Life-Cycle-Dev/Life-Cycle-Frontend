@@ -53,7 +53,7 @@ export default function Navbar() {
   ];
 
   return (
-    <div className="border-t	border-iconInput border-opacity-42	border-solid	 rounded bg-black w-full h-fit z-10 fixed bottom-0 p-[14px] flex justify-around items-center ">
+    <div className="shadow-lg bg-backgroundInput rounded w-full h-fit z-10 fixed bottom-0 p-[14px] flex justify-around items-center">
       {links.map((link, index) => {
         return (
           <Link href={link.href} key={index}>

@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { GetUserInfoResponse } from "@/model/users/users";
 import Navbar from "@/components/Navbar";
-import Header from "@/components/Header";
 import { searchFood, insertFood } from "@/functions/eatCycle";
 import { ChangeEvent } from "react";
 import Swal from "sweetalert2";
@@ -12,23 +11,14 @@ export default function Eat(props: {
   setLoading: (loading: boolean) => void;
 }) {
   const router = useRouter();
-  const isServer = typeof window === "undefined";
-
   const [food, setFood] = useState<string>("");
   const [foodList, setFoodList] = useState<any[]>([]);
   const [amount, setAmount] = useState<number>(0);
-
-  if (!isServer) {
-    if (!props.user) {
-      router.push("/login");
-    }
-  }
 
   const onSearchFood = async () => {
     try {
       props.setLoading(true);
       const response = await searchFood(food);
-      console.log(response.result);
       props.setLoading(false);
       if (response.result.length == 0) {
         return Swal.fire({

@@ -24,10 +24,9 @@ export default function Welcome(props: { user: GetUserInfoResponse }) {
           Welcome to<br></br> Lifecycle 👋
         </h1>
         <p className="mt-5">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione eos
-          explicabo impedit voluptate sed corporis alias rem sunt. Temporibus
-          sit deleniti numquam mollitia? Porro tempora fugit autem dolor
-          cupiditate magnam.
+          The app is a wellness tool that helps users manage their food intake and 
+          track their sleep. allows users to set goals for calorie intake, and tracks 
+          sleep patterns to identify factors affecting sleep quality.
         </p>
       </div>
       <div className="flex flex-col gap-5 pb-10">

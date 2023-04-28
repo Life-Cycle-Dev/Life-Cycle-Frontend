@@ -10,8 +10,8 @@ export default function EmailIcon() {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M0.875 12V1.375C0.875 1.02982 1.15482 0.75 1.5 0.75H16.5C16.8452 0.75 17.125 1.02982 17.125 1.375V12C17.125 12 17.125 12.5178 16.7589 12.8839C16.7589 12.8839 16.3928 13.25 15.875 13.25H2.125C2.125 13.25 1.60723 13.25 1.24112 12.8839C1.24112 12.8839 0.875 12.5178 0.875 12ZM2.125 12H15.875V2H2.125V12Z"
         fill="#9D9E9E"
       />

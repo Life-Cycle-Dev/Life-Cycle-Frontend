@@ -59,8 +59,6 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
         },
         data: formdata,
       });
-      console.log(response);
-
       setUserImgUrl(response[0].url);
       setIsUpload(false);
       setUserImgId(response[0].id);
