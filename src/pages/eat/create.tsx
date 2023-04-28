@@ -55,6 +55,7 @@ export default function Eat(props: {
         title: "Insert Food Success",
         showConfirmButton: false,
         timer: 1500,
+        iconColor: "var(--primary)",
       });
       router.push("/eat");
     } catch (error) {

@@ -22,6 +22,7 @@ export const onGoogleLogin = async () => {
         title: `Hello ${response.user.name}`,
         showConfirmButton: false,
         timer: 1500,
+        iconColor: "var(--primary)",
       });
       window.location.href = "/"
     } catch (error) {

@@ -28,12 +28,12 @@ export default function SearchFood(props: {
   return (
     <>
       <Navbar />
-      <HeaderBar headerName="Search Food" />
+      <HeaderBar headerName="Search Food" backRoute="/eat" />
       <section>
         <div className="bg-background w-full h-screen text-textWhite p-5">
           <div className="mt-20 pb-20">
-            <div className="p-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] rounded-[30px] ">
-              <h1>Find the food you eat 🍽️ 🥗 🍕 🍜 ✨</h1>
+            <div className="shadow-md p-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] rounded-[30px] ">
+              <div className="text-[34px]">Find the food you eat 🥗 🍕 </div>
               <form onSubmit={handleSearchFood}>
                 <div className="mt-2 relative border border-primary rounded-[10px]">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none  ">
