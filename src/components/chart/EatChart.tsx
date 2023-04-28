@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getLastSunday, formatDate } from '@/functions/common';
+import { formatDate, getDateString } from '@/functions/common';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,10 +23,9 @@ ChartJS.register(
   ChartDataLabels
 );
 
-const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-
 export default function EatChart(props: {
-  onLoad: (loading: boolean) => void;
+  onLoad: (loading: boolean) => void,
+  startDate?: Date,
 }) {
 
   let options:any = {
@@ -47,6 +46,7 @@ export default function EatChart(props: {
         color: '#ffffff',
         anchor: 'end',
         align: 'end',
+        offset: -2,
         clamp: true,
       }
     },
@@ -57,23 +57,29 @@ export default function EatChart(props: {
         },
         ticks: {
           color: '#ffffff',
+          font: {
+            size: 10,
+          }
         }
       },
       y: {
-        stepSize: 100,
+        stepSize: 200,
         grid: {
           display: false,
         },
         ticks: {
           color: '#ffffff',
-          stepSize: 200
+          stepSize: 200,
+          font: {
+            size: 10,
+          }
         }
       }
     }
   };
 
   const [data, setData] = useState({
-    labels: days,
+    labels: ['', '', '', '', '', '', ''],
     datasets: [
       {
         data: [0, 0, 0, 0, 0, 0, 0],
@@ -84,20 +90,24 @@ export default function EatChart(props: {
   })
 
   useEffect(() => {
-    getData();
-  }, [])
+    const startDate:Date = props.startDate ? props.startDate : new Date()
+    getData(startDate);
+  }, [props.startDate])
 
-  const getData = async () => {
-    let startDate = await getLastSunday()
-    const total = [0, 0, 0, 0, 0, 0, 0]
+  const getData = async (startDate:Date) => {
+    let total = [0, 0, 0, 0, 0, 0, 0]
+    let dateString = ['', '', '', '', '', '', '']
+    startDate = new Date(startDate.valueOf() - 6 * 24 * 60 * 60 * 1000)
     for (let index = 0; index < 7; index++) {
       const data = await getFoodOfUser(formatDate(startDate))
-      const totalCalories = await data.reduce((total: number, food: any) => total + food.calorie, 0)
+      const totalCalories = await data.reduce((total: number, food: any) => total + food.calorie, 0).toFixed(1)
       total[index] = totalCalories
+      dateString[index] = getDateString(startDate)
       startDate.setDate(startDate.getDate() + 1)
     }
+
     setData({
-      labels: days,
+      labels: dateString,
       datasets: [
         {
           data: total,

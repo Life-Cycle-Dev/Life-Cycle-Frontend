@@ -9,25 +9,19 @@ import HeaderBar from "@/components/HeaderBar";
 import DateIcon from "@/icons/DateIcon";
 import { __String } from "typescript";
 import EatChart from "@/components/chart/EatChart";
+import { formatDate } from "@/functions/common";
 
 export default function NewEat(props: {
   user: GetUserInfoResponse;
   setLoading: (loading: boolean) => void;
 }) {
   const router = useRouter();
-  const isServer = typeof window === "undefined";
   const [foodList, setFoodList] = useState<any[]>([]);
   const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
   const [onLoadChart, setOnLoadChart] = useState<boolean>(true)
 
-  if (!isServer) {
-    if (!props.user) {
-      router.push("/");
-    }
-  }
 
   useEffect(() => {
-    props.setLoading(true);
     getFoodOfUser(date)
       .then((response) => {
         props.setLoading(false);
@@ -77,11 +71,11 @@ export default function NewEat(props: {
               <div className="flex-auto">
                 <div className="flex flex-wrap">
                   <div className="flex-auto text-lg text-white font-semibold">
-                    {date}
+                    {formatDate(new Date(date), "/")}
                   </div>
                   <div className="text-lg font-semibold text-gray-200">
                     {/* calculate cals */}
-                    {foodList.reduce((a, b) => a + b.calorie, 0)} cals
+                    {foodList.reduce((a, b) => a + b.calorie, 0).toFixed(1)} cals
                   </div>
                   <div className="w-full flex-none text-sm font-medium text-gray-200 mt-2 ">
                     {foodList.length} food(s)
@@ -93,7 +87,8 @@ export default function NewEat(props: {
             <div className={`rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2`}> 
               <div className="mb-3 font-bold text-primary text-xl">Eat Cycle Dashboard</div>  
               <div className={`${onLoadChart && 'animate-pulse'}`}>
-                <EatChart onLoad={setOnLoadChart} />
+                <EatChart onLoad={setOnLoadChart}
+                          startDate={new Date(date)} />
               </div>    
             </div>
 
@@ -117,10 +112,10 @@ export default function NewEat(props: {
                           {food.name}
                         </div>
                         <div className="text-lg font-semibold text-textWhite">
-                          {food.calorie} cals
+                          {food.calorie.toFixed(1)} cals
                         </div>
                         <div className="w-full flex-none text-sm font-medium text-textWhite ">
-                          {food.amount} gram(s)
+                          {food.amount.toFixed(1)} gram(s)
                         </div>
                       </div>
                     </div>

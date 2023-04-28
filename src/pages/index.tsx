@@ -13,12 +13,12 @@ export default function Home(props: {
   const isServer = typeof window === "undefined";
   const [foodList, setFoodList] = useState<any[]>([]);
 
-  if (!isServer) {
-    if (!props.user) {
-      window.location.href = "/welcome";
-      return
-    }
-  }
+  // if (!isServer) {
+  //   if (!props.user) {
+  //     window.location.href = "/welcome";
+  //     return
+  //   }
+  // }
 
   useEffect(() => {
     props.setLoading(true);

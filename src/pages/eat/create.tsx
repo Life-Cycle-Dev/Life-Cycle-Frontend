@@ -11,17 +11,9 @@ export default function Eat(props: {
   setLoading: (loading: boolean) => void;
 }) {
   const router = useRouter();
-  const isServer = typeof window === "undefined";
-
   const [food, setFood] = useState<string>("");
   const [foodList, setFoodList] = useState<any[]>([]);
   const [amount, setAmount] = useState<number>(0);
-
-  if (!isServer) {
-    if (!props.user) {
-      router.push("/login");
-    }
-  }
 
   const onSearchFood = async () => {
     try {
