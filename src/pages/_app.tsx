@@ -45,7 +45,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Script src="https://cdn.lordicon.com/ritcuqlt.js"></Script>
       {loading && <Loading />}
-      <div className={`${loading && "hidden"}`}>
+      <div className={`${loading && "hidden"} container-app`}>
         <Component {...pageProps} user={user} setLoading={setLoading} />
       </div>
     </>
