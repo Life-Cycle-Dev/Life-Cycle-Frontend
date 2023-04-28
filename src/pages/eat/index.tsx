@@ -20,7 +20,6 @@ export default function Eat(props: {
   const router = useRouter();
   const [foodList, setFoodList] = useState<any[]>([]);
   const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
-  const [onLoadChart, setOnLoadChart] = useState<boolean>(true);
 
   useEffect(() => {
     getFoodOfUser(date)
@@ -94,10 +93,9 @@ export default function Eat(props: {
             </div>
 
             <div className={`rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2`}>
-              <div className="mb-3 font-bold text-primary text-xl">Eat Cycle Dashboard</div>
-              <div className={`${onLoadChart && 'animate-pulse'}`}>
-                <EatChart onLoad={setOnLoadChart}
-                  currentDate={new Date(date)} />
+              <div className="mb-6 font-bold text-primary text-xl">Eat Cycle Dashboard</div>
+              <div>
+                <EatChart currentDate={new Date(date)} />
               </div>
             </div>
 

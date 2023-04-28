@@ -24,7 +24,6 @@ ChartJS.register(
 );
 
 export default function EatChart(props: {
-  onLoad: (loading: boolean) => void,
   currentDate?: Date,
 }) {
 
@@ -117,7 +116,6 @@ export default function EatChart(props: {
         },
       ],
     })
-    props.onLoad(false)
   }
 
   return <Bar options={options} data={data} />;
