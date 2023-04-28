@@ -185,7 +185,7 @@ export default function Recording(props: {
               onClick={handleRecord}
               disabled={running}
             >
-              {running ? "It's always time for a nap..." : "I will go to bed"}
+              {running ? "It's always time for a nap.." : "I will go to bed"}
             </button>
 
             <button
