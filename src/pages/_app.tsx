@@ -6,6 +6,7 @@ import { GetUserInfoResponse } from "@/model/users/users";
 import Script from "next/script";
 import style from "../styles/app.module.css";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 function Loading() {
   return (
@@ -56,6 +57,10 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
+      <Head>
+        <title>Life Cycle App</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Script src="https://cdn.lordicon.com/ritcuqlt.js"></Script>
       {loading && <Loading />}
       <div className={`${loading && "hidden"} container-app`}>
