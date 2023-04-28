@@ -20,8 +20,6 @@ import UserIcon from "@/icons/UserIcon";
 import FemaleIcon from "@/icons/FemaleIcon";
 import MaleIcon from "@/icons/MaleIcon";
 import moment from "moment";
-import HeightIcon from "@/icons/HeightIcon";
-import WeightIcon from "@/icons/WeightIcon";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 

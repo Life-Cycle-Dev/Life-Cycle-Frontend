@@ -48,9 +48,9 @@
   background-color: var(--primary) !important;
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 500px) {
   .container-app{
-    width: 600px;
+    width: 400px;
     margin: 0 auto;
   }
 }
