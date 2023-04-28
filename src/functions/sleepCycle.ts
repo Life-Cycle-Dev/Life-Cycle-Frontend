@@ -45,6 +45,14 @@ export const updateTimeSleep = async (id: number, data: any) => {
   }
 };
 
+export function getPreviousDate(datetime: Date) {
+  const date = new Date(datetime);
+  if (date.getHours() < 12) {
+    date.setUTCDate(date.getDate() - 1);
+  }
+  return date.toISOString().split("T")[0];
+}
+
 export const getSummarySleepTime = async (startDate?: Date, endDate?: Date) => {
   try {
     const config = {
