@@ -27,13 +27,13 @@ export default function Sleep(props: {
               <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
                 <div className="mt-2 flex items-center text-sm gap-1">
                   <DateIcon />
-                  <input
+                  {/* <input
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     max={moment().format("YYYY-MM-DD")}
                     className="inline-flex items-center text-sm px-3 py-2 text-iconInput"
-                  />
+                  /> */}
                 </div>
               </div>
               <button

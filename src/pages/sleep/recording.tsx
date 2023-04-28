@@ -5,6 +5,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Swal from "sweetalert2";
 import {
   createTimeSleep,
+  getPreviousDate,
   getSummarySleepTime,
   updateTimeSleep,
 } from "@/functions/sleepCycle";
@@ -59,7 +60,9 @@ export default function Recording(props: {
 
   const getSleepTime = async () => {
     try {
-      const summarySleepTime = await getSummarySleepTime();
+      const summarySleepTime = await getSummarySleepTime(
+        new Date(getPreviousDate(new Date()))
+      );
       const bedTime = new Date(summarySleepTime[0].bedTime);
       const now: Date = summarySleepTime[0].wakeUpTime
         ? new Date(summarySleepTime[0].wakeUpTime)
