@@ -18,12 +18,12 @@ export default function Welcome(props: { user: GetUserInfoResponse }) {
   }
 
   return (
-    <div className="bg-background w-full h-screen text-textWhite p-5 flex flex-col	justify-between	">
+    <div className="bg-background w-full h-screen text-textWhite p-5 flex flex-col justify-between	">
       <div className="mt-10">
         <h1>
           Welcome to<br></br> Lifecycle 👋
         </h1>
-        <p className="mt-5">
+        <p className="mt-10 text-justify	">
           The app is a wellness tool that helps users manage their food intake and 
           track their sleep. allows users to set goals for calorie intake, and tracks 
           sleep patterns to identify factors affecting sleep quality.

@@ -68,7 +68,7 @@ export default function Eat(props: {
                 className="bg-primary w-full p-3 rounded-[16px] mt-5"
                 onClick={() => router.push("/eat/search")}
               >
-                add food
+                I eat something
               </button>
             </div>
 

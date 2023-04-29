@@ -44,7 +44,6 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
           setUserImgUrl(user?.profileImage?.url);
         }
       })
-      .catch(() => { });
   }, []);
 
   const [isUpload, setIsUpload] = useState<boolean>(false);
@@ -127,7 +126,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
   const onLogout = async () => {
     try {
       await localStorage.removeItem("token");
-      window.location.href = "/login";
+      window.location.href = "/welcome";
     } catch (error) {
       Swal.fire({
         icon: "error",
