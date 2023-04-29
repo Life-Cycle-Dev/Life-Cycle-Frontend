@@ -54,7 +54,7 @@ export default function Home(props: {
             src="/asset/food.jpg"
             alt="food"
           />
-          <div className="backdrop-filter px-3 py-4 absolute bottom-0 backdrop-blur-md h-fit w-full">
+          <div className="backdrop-filter px-3 py-4 absolute rounded-lg bottom-0 backdrop-blur-md h-fit w-full">
             <h1 className="text-textWhite text-[16px] ">Today's Eat?</h1>
           </div>
         </Link>
@@ -65,7 +65,7 @@ export default function Home(props: {
             src="/asset/sleep.jpg"
             alt="sleep"
           />
-          <div className="backdrop-filter px-3 py-4 absolute bottom-0 backdrop-blur-md h-fit w-full">
+          <div className="backdrop-filter px-3 py-4 absolute rounded-lg bottom-0 backdrop-blur-md h-fit w-full">
             <h1 className="text-textWhite text-[16px] ">Did you sleep well?</h1>
           </div>
         </Link>
