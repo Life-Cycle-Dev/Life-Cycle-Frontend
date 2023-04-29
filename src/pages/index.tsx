@@ -1,68 +1,63 @@
 import { GetUserInfoResponse } from "@/model/users/users";
 import Navbar from "@/components/Navbar";
-import { useState, useEffect } from "react";
-import { getFoodOfUser } from "@/functions/eatCycle";
-import Swal from "sweetalert2";
 import Link from "next/link";
+import EatChart from "@/components/chart/EatChart";
 
 export default function Home(props: {
   user: GetUserInfoResponse;
   setLoading: (loading: boolean) => void;
 }) {
-  const [foodList, setFoodList] = useState<any[]>([]);
-
-  useEffect(() => {
-    props.setLoading(true);
-    getFoodOfUser()
-      .then((response) => {
-        props.setLoading(false);
-        setFoodList(response);
-      })
-      .catch((error) => {
-        props.setLoading(false);
-        Swal.fire({
-          icon: "error",
-          title: "error",
-          text: (error as Error).message,
-        });
-      });
-  }, []);
 
   return (
     <>
       <Navbar />
 
-      <div className="lg:flex lg:items-center lg:justify-between px-5">
-        <div className="min-w-0 flex-1">
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-            Hello's {props.user?.name} {"  "}
-            <lord-icon
-              src="https://cdn.lordicon.com/lupuorrc.json"
-              trigger="loop"
-              style={{ width: 40, height: 40 }}
-            ></lord-icon>
-          </h2>
+      <div className="flex pt-7 px-7 justify-between items-center">
+        <Link href="/profile">
+          <img
+            className="w-10 h-10 rounded-full"
+            src={props.user?.profileImage?.url ?? "/asset/profile icon.png"}
+            alt="avatar"
+          />
+        </Link>
+        <div>
+          <h1 className="text-textWhite text-[16px]">Hello's {props.user?.name?.split(" ")[0]}</h1>
         </div>
       </div>
 
-      <Link href="/eat">
-        <div className="flex rounded-md shadow-md font-sans gap-4 p-4 bg-gradient-to-r from-[#ff4444] to-[#ff5544] m-4 mt-6">
-          <div className="flex-auto">
-            <div className="flex flex-wrap">
-              <h1 className="flex-auto text-lg text-white font-semibold">
-                Today's Food
-              </h1>
-              <div className="text-lg font-semibold text-gray-200">
-                {/* calculate cals */}
-                {foodList.reduce((a, b) => a + b.calorie, 0)} cals
-              </div>
-              <div className="w-full flex-none text-sm font-medium text-gray-200 mt-2">
-                {foodList.length} foods
-              </div>
-            </div>
+      <div className="grid grid-cols-2 px-5 gap-5 mt-10">
+        <Link className="relative overflow-hidden h-[200px]"
+          href="/eat">
+          <img
+            className="absolute object-cover h-[200px] rounded-lg"
+            src="/asset/food.jpg"
+            alt="food"
+          />
+          <div className="backdrop-filter px-3 py-4 absolute rounded-lg bottom-0 backdrop-blur-md h-fit w-full">
+            <h1 className="text-textWhite text-[16px] ">Today's Eat?</h1>
           </div>
+        </Link>
+        <Link className="relative overflow-hidden h-[200px]"
+          href="/sleep">
+          <img
+            className="absolute object-cover h-[200px] rounded-lg"
+            src="/asset/sleep.jpg"
+            alt="sleep"
+          />
+          <div className="backdrop-filter px-3 py-4 absolute rounded-lg bottom-0 backdrop-blur-md h-fit w-full">
+            <h1 className="text-textWhite text-[16px] ">Did you sleep well?</h1>
+          </div>
+        </Link>
+      </div>
+
+      <div className={`rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-8 mx-4 boredr-2`}>
+        <div className="mb-6 font-bold text-primary text-xl">Eat Cycle Dashboard</div>
+        <div>
+          <EatChart />
         </div>
-      </Link>
+      </div>
+
+
     </>
   );
 }

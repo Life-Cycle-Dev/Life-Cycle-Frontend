@@ -40,16 +40,17 @@
   --black: #000000;
 }
 
-input[type="date"]::-webkit-inner-spin-button,
-input[type="date"]::-webkit-calendar-picker-indicator {
-  background: transparent;
-  bottom: 0;
-  color: transparent;
-  cursor: pointer;
-  height: auto;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: auto;
+.swal2-popup{
+  color: var(--textWhite) !important;
+  background: var(--background) !important;
+}
+.swal2-styled.swal2-confirm {
+  background-color: var(--primary) !important;
+}
+
+@media screen and (min-width: 500px) {
+  .container-app{
+    width: 400px;
+    margin: 0 auto;
+  }
 }

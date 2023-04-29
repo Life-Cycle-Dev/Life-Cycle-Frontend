@@ -24,12 +24,12 @@ ChartJS.register(
 );
 
 export default function EatChart(props: {
-  onLoad: (loading: boolean) => void,
   currentDate?: Date,
 }) {
 
   let options:any = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       title: {
         display: false
@@ -63,13 +63,13 @@ export default function EatChart(props: {
         }
       },
       y: {
-        stepSize: 200,
+        stepSize: 250,
         grid: {
           display: false,
         },
         ticks: {
           color: '#ffffff',
-          stepSize: 200,
+          stepSize: 250,
           font: {
             size: 10,
           }
@@ -116,7 +116,6 @@ export default function EatChart(props: {
         },
       ],
     })
-    props.onLoad(false)
   }
 
   return <Bar options={options} data={data} />;

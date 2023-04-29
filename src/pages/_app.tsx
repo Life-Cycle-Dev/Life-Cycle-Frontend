@@ -3,8 +3,9 @@ import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import { getUser } from "../../common/getUser";
 import { GetUserInfoResponse } from "@/model/users/users";
-import Script from "next/script";
 import style from "../styles/app.module.css";
+import { useRouter } from "next/router";
+import Head from "next/head";
 
 function Loading() {
   return (
@@ -16,25 +17,37 @@ function Loading() {
   );
 }
 
+const allowedUnauthRoutes = ["/login", "/register", "/welcome"];
+
 export default function App({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState<GetUserInfoResponse>();
   const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
 
   useEffect(() => {
     setLoading(true);
     const token = localStorage.getItem("token") || "";
+    if(!token && !allowedUnauthRoutes.includes(router.pathname)) {
+      window.location.href = "/welcome";
+      return;
+    }
     getUser(token)
       .then((user) => {
         if (!user) {
-          setLoading(false);
           setUser(undefined);
           localStorage.setItem("token", "");
+          window.location.href = "/welcome";
+          setLoading(false);
           return;
         }
         setLoading(false);
         setUser(user);
       })
       .catch(() => {
+        if(!allowedUnauthRoutes.includes(router.pathname)) {
+          window.location.href = "/welcome";
+          return;
+        }
         setLoading(false);
         setUser(undefined);
         localStorage.setItem("token", "");
@@ -43,9 +56,12 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Script src="https://cdn.lordicon.com/ritcuqlt.js"></Script>
+      <Head>
+        <title>Life Cycle App</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       {loading && <Loading />}
-      <div className={`${loading && "hidden"}`}>
+      <div className={`${loading && "hidden"} container-app`}>
         <Component {...pageProps} user={user} setLoading={setLoading} />
       </div>
     </>
