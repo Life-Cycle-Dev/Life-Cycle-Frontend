@@ -2,7 +2,6 @@ import HeaderBar from "@/components/HeaderBar";
 import Navbar from "@/components/Navbar";
 import { useRouter } from "next/router";
 import React from "react";
-import MyChart from "./chart";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -30,7 +29,6 @@ export default function Dashboard() {
                       <div className="text-[15px] font-semibold	">
                         {day}, Nov 14
                       </div>
-                      <MyChart />
                       <div className="flex justify-between">
                         <div className="w-[70%] text-[12px]">
                           <div
