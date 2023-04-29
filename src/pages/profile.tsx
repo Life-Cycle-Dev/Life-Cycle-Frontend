@@ -42,7 +42,6 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
           setUserImgUrl(user?.profileImage?.url);
         }
       })
-      .catch(() => { });
   }, []);
 
   const [isUpload, setIsUpload] = useState<boolean>(false);
