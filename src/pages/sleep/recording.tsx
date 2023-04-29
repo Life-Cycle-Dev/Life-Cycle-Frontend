@@ -210,6 +210,13 @@ export default function Recording(props: {
   const formattedTime = `${times.hours < 10 ? "0" : ""}${times.hours}:${times.minutes < 10 ? "0" : ""
     }${times.minutes}:${times.seconds < 10 ? "0" : ""}${times.seconds}`;
 
+  const getFormattedDate = (date: Date) => {
+    const day = date.toLocaleDateString("en-EN", { weekday: "short" });
+    const dayOfMonth = date.toLocaleDateString("en-EN", { day: "numeric" });
+    const month = date.toLocaleDateString("en-EN", { month: "short" });
+    return `${day} ${dayOfMonth} ${month}`;
+  }
+
   return (
     <>
       <Navbar />
@@ -217,6 +224,9 @@ export default function Recording(props: {
       <section>
         <div className="bg-background w-full h-screen text-textWhite p-5">
           <div className="mt-20">
+            <div className="flex w-full text-primary text-[16px] font-bold mb-3 justify-center">
+              {getFormattedDate(new Date())}
+            </div>
             <div className="w-full text-center">You have been sleeping for</div>
             <div className="flex w-full text-[48px] font-bold	justify-center">
               {formattedTime}
@@ -241,8 +251,8 @@ export default function Recording(props: {
             </button>
           </div>
 
-          <div className={`rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-12 boredr-2`}>
-            {/* <div className="mb-6 font-bold text-primary text-xl">Eat Cycle Dashboard</div> */}
+          <div className={`rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-12 boredr-2 shadow-md`}>
+            <div className="mb-6 font-bold text-primary text-xl">Snoring Detect</div>
             <div>
               <SleepChartDay sleepCycleLineLists={sleepCycleLineLists} />
             </div>
