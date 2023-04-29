@@ -73,7 +73,16 @@ export default function EatChart(props: {
           font: {
             size: 10,
           }
-        }
+        },
+        max: function(context: any) {
+          let maxData = Math.max(...context.chart.data.datasets[0].data)
+          let count = 0
+          while(maxData > 250) {
+            maxData -= 250
+            count++
+          }
+          return (count + 1) * 250
+        },
       }
     }
   };

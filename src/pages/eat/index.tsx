@@ -51,7 +51,7 @@ export default function Eat(props: {
       <section>
         <div className="bg-background w-full h-screen text-textWhite p-5">
           <div className="mt-20 pb-20 ">
-            <div className="p-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] rounded-[30px] ">
+            <div className="p-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] rounded-[30px] shadow-md">
               <h1>Record your food</h1>
               <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
                 <div className="mt-2 flex items-center text-sm text-gray-500 ">
@@ -72,7 +72,7 @@ export default function Eat(props: {
               </button>
             </div>
 
-            <div className="flex rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2">
+            <div className="flex shadow-md rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2">
               <div className="flex-auto">
                 <div className="flex flex-wrap">
                   <div className="flex-auto text-lg text-white font-semibold">
@@ -92,7 +92,7 @@ export default function Eat(props: {
               </div>
             </div>
 
-            <div className={`rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2`}>
+            <div className={`rounded-[30px] shadow-md bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2`}>
               <div className="mb-6 font-bold text-primary text-xl">Eat Cycle Dashboard</div>
               <div>
                 <EatChart currentDate={new Date(date)} />
@@ -104,7 +104,7 @@ export default function Eat(props: {
                 return (
                   <div
                     key={index}
-                    className="flex rounded-[15px] bg-backgroundInput gap-4 p-4 mt-6"
+                    className="flex shadow-md rounded-[15px] bg-backgroundInput gap-4 p-4 mt-6"
                   >
                     <div className="flex-none w-11 relative ">
                       <img

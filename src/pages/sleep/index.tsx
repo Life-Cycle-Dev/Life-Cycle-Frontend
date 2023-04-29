@@ -1,10 +1,12 @@
 import HeaderBar from "@/components/HeaderBar";
 import Navbar from "@/components/Navbar";
+import SleepChartWeek from "@/components/chart/SleepChartWeek";
+import SnoringChartWeek from "@/components/chart/SnoringChartWeek";
 import DateIcon from "@/icons/DateIcon";
 import { GetUserInfoResponse } from "@/model/users/users";
 import moment from "moment";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -15,7 +17,7 @@ export default function Sleep(props: {
   const router = useRouter();
   const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
 
-  const onChangeDate = (date: Date | null) => {
+  const onChangeDate = async (date: Date | null) => {
     if (!date) {
       return;
     }
@@ -49,6 +51,20 @@ export default function Sleep(props: {
               >
                 Record
               </button>
+            </div>
+
+            <div className={`shadow-md rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2`}>
+              <div className="mb-6 font-bold text-primary text-xl">Sleep times</div>
+              <div>
+                <SleepChartWeek currentDate={new Date(date)} />
+              </div>
+            </div>
+
+            <div className={`shadow-md rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2`}>
+              <div className="mb-6 font-bold text-primary text-xl">Snoring times</div>
+              <div>
+                <SnoringChartWeek currentDate={new Date(date)} />
+              </div>
             </div>
 
           </div>
