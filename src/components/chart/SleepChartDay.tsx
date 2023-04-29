@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +9,7 @@ import {
   Legend
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 ChartJS.register(
   CategoryScale,
@@ -76,8 +76,9 @@ export default function SleepChartDay(props: {
 
   const getFormatTime = (dateString: string) => {
     const date = new Date(dateString);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
+    const thaiDate = new Date(date.getTime() - 7 * 60 * 60 * 1000);
+    const hours = thaiDate.getHours();
+    const minutes = thaiDate.getMinutes();
     return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
   }
 

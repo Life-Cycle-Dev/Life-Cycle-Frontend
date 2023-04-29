@@ -56,7 +56,6 @@ export default function Recording(props: {
       bedTime.setHours(bedTime.getHours() - 7);
       timer(bedTime, summarySleepTime[0].id);
       setSleepCycleLineLists(summarySleepTime[0].sleepCycleLines)
-      console.log(summarySleepTime[0].sleepCycleLines);
       
       setRunning(summarySleepTime[0].wakeUpTime === null);
       localStorage.setItem(
