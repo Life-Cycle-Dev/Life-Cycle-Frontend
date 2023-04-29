@@ -10,6 +10,8 @@ import HeaderBar from "@/components/HeaderBar";
 import DateIcon from "@/icons/DateIcon";
 import FemaleIcon from "@/icons/FemaleIcon";
 import MaleIcon from "@/icons/MaleIcon";
+import HeightIcon from "@/icons/HeightIcon";
+import WeightIcon from "@/icons/WeightIcon";
 
 export default function ContinueRegister() {
   const inputFileRef = useRef<any>();
@@ -215,6 +217,9 @@ export default function ContinueRegister() {
                       Height{" "}
                     </label>
                     <div className="mt-2.5 relative text-gray-400 focus-within:text-gray-600">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <HeightIcon />
+                      </div>
                       <input
                         min={0}
                         type="number"
@@ -234,6 +239,9 @@ export default function ContinueRegister() {
                       Weight{" "}
                     </label>
                     <div className="mt-2.5 relative text-gray-400 focus-within:text-gray-600">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <WeightIcon />
+                      </div>
                       <input
                         min={0}
                         type="number"

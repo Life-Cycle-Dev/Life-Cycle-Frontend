@@ -20,6 +20,8 @@ import UserIcon from "@/icons/UserIcon";
 import FemaleIcon from "@/icons/FemaleIcon";
 import MaleIcon from "@/icons/MaleIcon";
 import moment from "moment";
+import HeightIcon from "@/icons/HeightIcon";
+import WeightIcon from "@/icons/WeightIcon";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -46,7 +48,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
 
   const [isUpload, setIsUpload] = useState<boolean>(false);
 
-  const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+  const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setIsUpload(true);
       const file = e.target.files[0];
@@ -66,7 +68,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
     }
   };
 
-  const onUpdateUserInfo = async (e: SyntheticEvent) => {
+  const handleUpdateUserInfo = async (e: SyntheticEvent) => {
     try {
       e.preventDefault();
       const target = e.target as typeof e.target & {
@@ -83,7 +85,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
       const date = birthDate ? moment(birthDate).format("YYYY-MM-DD") : null;
       const jwt = localStorage.getItem("token") || "";
 
-      let preData: any = {
+      const data: any = {
         name: name,
         gender: gender,
         height: height || 0,
@@ -92,10 +94,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
       };
 
       if (date) {
-        preData = {
-          ...preData,
-          birthdate: date,
-        };
+        data.birthdate = date;
       }
 
       await handleRequest({
@@ -104,7 +103,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
-        data: preData,
+        data: data,
       });
 
       await Swal.fire({
@@ -144,12 +143,11 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
   return (
     <div>
       <HeaderBar headerName="Profile" />
-
       <section className="bg-background w-full h-screen text-textWhite p-5">
         <div className="grid grid-cols-1 mt-20 pb-20">
           <div className="flex items-center justify-center">
             <div className="w-full">
-              <form onSubmit={onUpdateUserInfo}>
+              <form onSubmit={handleUpdateUserInfo}>
                 <div className="space-y-5">
                   <div className="sticky flex justify-center">
                     <img
@@ -168,7 +166,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                     </div>
                     <input
                       type="file"
-                      onChange={onUpload}
+                      onChange={handleUpload}
                       ref={inputFileRef}
                       className="hidden"
                     />
@@ -176,7 +174,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
 
                   <div>
                     <label
-                      htmlFor="weight"
+                      htmlFor="name"
                       className="text-base font-medium text-gray-900"
                     >
                       {" "}
@@ -191,7 +189,7 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                         name="name"
                         id="name"
                         defaultValue={props.user?.name}
-                        placeholder="Weight (kg.)"
+                        placeholder="Name"
                       />
                     </div>
                   </div>
@@ -276,6 +274,9 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                       Height{" "}
                     </label>
                     <div className="mt-2.5 relative text-gray-400 focus-within:text-gray-600">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <HeightIcon />
+                      </div>
                       <input
                         min={0}
                         type="number"
@@ -296,6 +297,9 @@ export default function Profile(props: { user: GetUserInfoResponse }) {
                       Weight{" "}
                     </label>
                     <div className="mt-2.5 relative text-gray-400 focus-within:text-gray-600">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <WeightIcon />
+                      </div>
                       <input
                         min={0}
                         type="number"
