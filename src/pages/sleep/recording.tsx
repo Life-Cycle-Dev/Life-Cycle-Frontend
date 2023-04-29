@@ -1,15 +1,17 @@
 import HeaderBar from "@/components/HeaderBar";
 import Navbar from "@/components/Navbar";
 import { GetUserInfoResponse } from "@/model/users/users";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import {
   createTimeSleep,
   getPreviousDate,
   getSummarySleepTime,
+  recorderSleepCycleTime,
   updateTimeSleep,
 } from "@/functions/sleepCycle";
 import { getThaiDate } from "@/functions/common";
+import SleepChartDay from "@/components/chart/SleepChartDay";
 
 type Time = {
   hours: number;
@@ -29,9 +31,10 @@ export default function Recording(props: {
 
   const [running, setRunning] = useState(false);
   const [timeId, setTimeId] = useState<number>(-1);
-  const volume = useRef(0);
+  const [sleepCycleLineLists, setSleepCycleLineLists] = useState<any[]>([])
 
   useEffect(() => {
+    localStorage.setItem("isSending", "false");
     getSleepTime();
   }, []);
 
@@ -40,6 +43,9 @@ export default function Recording(props: {
       const summarySleepTime = await getSummarySleepTime(
         new Date(getPreviousDate(new Date()))
       );
+      if (summarySleepTime.length === 0) {
+        return;
+      }
       const bedTime = new Date(summarySleepTime[0].bedTime);
       const now: Date = summarySleepTime[0].wakeUpTime
         ? new Date(summarySleepTime[0].wakeUpTime)
@@ -48,7 +54,10 @@ export default function Recording(props: {
         now.setHours(now.getHours() - 7);
       }
       bedTime.setHours(bedTime.getHours() - 7);
-      timer(bedTime);
+      timer(bedTime, summarySleepTime[0].id);
+      setSleepCycleLineLists(summarySleepTime[0].sleepCycleLines)
+      console.log(summarySleepTime[0].sleepCycleLines);
+      
       setRunning(summarySleepTime[0].wakeUpTime === null);
       localStorage.setItem(
         "timer",
@@ -75,8 +84,8 @@ export default function Recording(props: {
     }
   };
 
-  const getMedia = (callback:(value:number, current:number) => void) => {
-    if (localStorage.getItem("timer") !== "true"){
+  const getMedia = (callback: (value: number) => void) => {
+    if (localStorage.getItem("timer") !== "true") {
       return
     }
     navigator.mediaDevices
@@ -99,16 +108,29 @@ export default function Recording(props: {
           for (var i = 0; i < length; i++) {
             values += array[i];
           }
-          volume.current = values / length;
-          callback(values, volume.current);
+          callback(values);
         };
       })
       .catch(function (err) {
-        console.log("The following error occured: " + err);
+        Swal.fire({
+          icon: "error",
+          title: "error",
+          text: (err as Error).message,
+        });
       });
   };
 
-  const timer = (bedTime: Date) => {
+  const handleRegenerateChart = async () => {    
+    const summarySleepTime = await getSummarySleepTime(
+      new Date(getPreviousDate(new Date()))
+    );
+    if (summarySleepTime.length === 0) {
+      return;
+    }
+    setSleepCycleLineLists(summarySleepTime[0].sleepCycleLines)
+  }
+
+  const timer = (bedTime: Date, sleepCycleId: number) => {
     const intervel = setInterval(() => {
       const now: Date = new Date();
       const sleepTime: number = now.getTime() - bedTime.getTime();
@@ -117,9 +139,11 @@ export default function Recording(props: {
           const seconds = Math.floor((sleepTime / 1000) % 60);
           const minutes = Math.floor((sleepTime / (1000 * 60)) % 60);
           const hours = Math.floor((sleepTime / (1000 * 60 * 60)) % 24);
-          getMedia((value, current) => {
-            if (localStorage.getItem("timer") === "true"){
-              console.log(value, current);
+          getMedia((value) => {
+            const date = new Date();
+            const sleepId: number = sleepCycleId;
+            if (date.getSeconds() === 0) {
+              recorderSleepCycleTime(sleepId, value, handleRegenerateChart);
             }
           });
           return {
@@ -138,6 +162,14 @@ export default function Recording(props: {
     try {
       const id: any = await createTimeSleep();
       await setTimeId(id);
+      localStorage.setItem("timer", "true");
+      localStorage.setItem("isSending", "false");
+      setTimes({
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+      });
+      await timer(new Date(), id);
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -151,15 +183,6 @@ export default function Recording(props: {
     try {
       setRunning(true);
       await handleCreateOrUpdateTimeSleep();
-      if (localStorage.getItem("timer") == "false") {
-        localStorage.setItem("timer", "true");
-        setTimes({
-          hours: 0,
-          minutes: 0,
-          seconds: 0,
-        });
-        await timer(new Date());
-      }
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -194,7 +217,7 @@ export default function Recording(props: {
       <HeaderBar headerName="Recording" />
       <section>
         <div className="bg-background w-full h-screen text-textWhite p-5">
-          <div className="mt-20 pb-20 ">
+          <div className="mt-20">
             <div className="w-full text-center">You have been sleeping for</div>
             <div className="flex w-full text-[48px] font-bold	justify-center">
               {formattedTime}
@@ -217,6 +240,13 @@ export default function Recording(props: {
             >
               I am awake now
             </button>
+          </div>
+
+          <div className={`rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-12 boredr-2`}>
+            {/* <div className="mb-6 font-bold text-primary text-xl">Eat Cycle Dashboard</div> */}
+            <div>
+              <SleepChartDay sleepCycleLineLists={sleepCycleLineLists} />
+            </div>
           </div>
         </div>
       </section>

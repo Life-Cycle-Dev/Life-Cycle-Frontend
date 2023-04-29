@@ -56,11 +56,10 @@ export function getPreviousDate(datetime: Date) {
 export const getSummarySleepTime = async (startDate?: Date, endDate?: Date) => {
   try {
     const config = {
-      url: `${
-        process.env.NEXT_PUBLIC_BACKEND_PATH
-      }/api/lca/getSummary?startDate=${formatDate(
-        startDate ?? new Date()
-      )}&endDate=${formatDate(endDate ?? new Date())}`,
+      url: `${process.env.NEXT_PUBLIC_BACKEND_PATH
+        }/api/lca/getSummary?startDate=${formatDate(
+          startDate ?? new Date()
+        )}&endDate=${formatDate(endDate ?? new Date())}`,
       method: RequestMethod.GET,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
@@ -74,3 +73,43 @@ export const getSummarySleepTime = async (startDate?: Date, endDate?: Date) => {
     });
   }
 };
+
+export const recorderSleepCycleTime = async (timeSleepId: number, value: number, callback:any) => {
+  try {
+    const isSending = localStorage.getItem("isSending") || "false";
+    if (isSending === "true") return;
+    localStorage.setItem("isSending", "true");
+    await sendSleepCycleTime({
+      "sleepCycleId": timeSleepId,
+      "startTime": getThaiDate(new Date()),
+      "endTime": getThaiDate(new Date()),
+      "value": value
+    });
+    callback();
+  } catch (error) {
+    setTimeout(() => {
+      localStorage.setItem("isSending", "false");
+    }, 5000);
+  }
+}
+
+const sendSleepCycleTime = async (data: any) => {
+  try {
+    await handleRequest({
+      path: `${process.env.NEXT_PUBLIC_BACKEND_PATH}/api/lca/insertTimeCycleLine`,
+      method: RequestMethod.POST,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+      },
+      data: data,
+    })
+    setTimeout(() => {
+      localStorage.setItem("isSending", "false");
+    }, 5000);
+  }
+  catch (error) {
+    setTimeout(() => {
+      localStorage.setItem("isSending", "false");
+    }, 5000);
+  }
+}
