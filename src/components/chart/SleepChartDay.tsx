@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { formatDate, getDateString } from '@/functions/common';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -18,6 +18,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
+  ChartDataLabels
 );
 
 export default function SleepChartDay(props: {
@@ -32,6 +33,9 @@ export default function SleepChartDay(props: {
         display: false
       },
       legend: {
+        display: false
+      },
+      datalabels: {
         display: false
       }
     },
