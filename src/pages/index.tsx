@@ -1,8 +1,5 @@
 import { GetUserInfoResponse } from "@/model/users/users";
 import Navbar from "@/components/Navbar";
-import { useState, useEffect } from "react";
-import { getFoodOfUser } from "@/functions/eatCycle";
-import Swal from "sweetalert2";
 import Link from "next/link";
 import EatChart from "@/components/chart/EatChart";
 
@@ -10,24 +7,6 @@ export default function Home(props: {
   user: GetUserInfoResponse;
   setLoading: (loading: boolean) => void;
 }) {
-  const [foodList, setFoodList] = useState<any[]>([]);
-
-  useEffect(() => {
-    props.setLoading(true);
-    getFoodOfUser()
-      .then((response) => {
-        props.setLoading(false);
-        setFoodList(response);
-      })
-      .catch((error) => {
-        props.setLoading(false);
-        Swal.fire({
-          icon: "error",
-          title: "error",
-          text: (error as Error).message,
-        });
-      });
-  }, []);
 
   return (
     <>
