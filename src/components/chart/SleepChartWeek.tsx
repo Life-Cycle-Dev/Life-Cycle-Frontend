@@ -85,7 +85,7 @@ export default function SleepChartWeek(props: {
                         maxData -= 0.5
                         count++
                     }
-                    return (count + 1) * 0.5
+                    return (count + 1) * 1
                 },
             }
         }

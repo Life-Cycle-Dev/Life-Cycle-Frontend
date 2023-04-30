@@ -40,6 +40,12 @@
   --black: #000000;
 }
 
+/* change color datetime-local icon input */
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+
 .swal2-popup{
   color: var(--textWhite) !important;
   background: var(--background) !important;
