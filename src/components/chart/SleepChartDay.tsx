@@ -23,6 +23,7 @@ ChartJS.register(
 
 export default function SleepChartDay(props: {
   sleepCycleLineLists: any[],
+  showTimeLabel: boolean
 }) {
 
   let options: any = {
@@ -49,6 +50,7 @@ export default function SleepChartDay(props: {
             size: 10,
           },
           color: '#ffffff',
+          display: props.showTimeLabel
         }
       },
       y: {
@@ -57,7 +59,7 @@ export default function SleepChartDay(props: {
           display: false,
         },
         ticks: {
-          display: false
+          display: false,
         }
       }
     }
@@ -75,7 +77,7 @@ export default function SleepChartDay(props: {
   })
 
   const getFormatTime = (dateString: string) => {
-    const date = new Date(dateString);
+    const date = new Date(new Date(dateString).valueOf() - 7 * 60 * 60 * 1000);
     const hours = date.getHours();
     const minutes = date.getMinutes();
     return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
