@@ -2,6 +2,8 @@ import { GetUserInfoResponse } from "@/model/users/users";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import EatChart from "@/components/chart/EatChart";
+import SleepChartWeek from "@/components/chart/SleepChartWeek";
+import SnoringChartWeek from "@/components/chart/SnoringChartWeek"; 
 
 export default function Home(props: {
   user: GetUserInfoResponse;
@@ -29,35 +31,49 @@ export default function Home(props: {
         <Link className="relative overflow-hidden h-[200px]"
           href="/eat">
           <img
-            className="absolute object-cover h-[200px] rounded-lg"
+            className="absolute object-cover h-[200px] rounded-lg shadow-md"
             src="/asset/food.jpg"
             alt="food"
           />
           <div className="backdrop-filter px-3 py-4 absolute rounded-lg bottom-0 backdrop-blur-md h-fit w-full">
-            <h1 className="text-textWhite text-[16px] ">Today's Eat?</h1>
+            <div className="text-textWhite text-[16px] ">Today's Eat?</div>
           </div>
         </Link>
         <Link className="relative overflow-hidden h-[200px]"
           href="/sleep">
           <img
-            className="absolute object-cover h-[200px] rounded-lg"
+            className="absolute object-cover h-[200px] rounded-lg shadow-md"
             src="/asset/sleep.jpg"
             alt="sleep"
           />
           <div className="backdrop-filter px-3 py-4 absolute rounded-lg bottom-0 backdrop-blur-md h-fit w-full">
-            <h1 className="text-textWhite text-[16px] ">Did you sleep well?</h1>
+            <div className="text-textWhite text-[16px] ">Did you sleep well?</div>
           </div>
         </Link>
       </div>
 
-      <div className={`rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-8 mx-4 boredr-2`}>
-        <div className="mb-6 font-bold text-primary text-xl">Eat Cycle Dashboard</div>
+      <div className={`shadow-md rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-8 mx-4 boredr-2`}>
+        <div className="mb-6 font-bold text-primary text-xl">Eat Dashboard</div>
         <div>
           <EatChart />
         </div>
       </div>
 
+      <div className={`shadow-md rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-4 mx-4 boredr-2`}>
+        <div className="mb-6 font-bold text-primary text-xl">Sleep Dashboard</div>
+        <div>
+          <SleepChartWeek />
+        </div>
+      </div>
 
+      <div className={`shadow-md rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-4 mx-4 boredr-2`}>
+        <div className="mb-6 font-bold text-primary text-xl">Snoring Dashboard</div>
+        <div>
+          <SnoringChartWeek />
+        </div>
+      </div>
+
+      <div className="mt-20"></div>
     </>
   );
 }
