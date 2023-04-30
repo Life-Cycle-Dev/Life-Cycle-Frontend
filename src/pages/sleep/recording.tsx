@@ -214,7 +214,7 @@ export default function Recording(props: {
     const day = date.toLocaleDateString("en-EN", { weekday: "short" });
     const dayOfMonth = date.toLocaleDateString("en-EN", { day: "numeric" });
     const month = date.toLocaleDateString("en-EN", { month: "short" });
-    return `${day} ${dayOfMonth} ${month}`;
+    return `${day},${dayOfMonth} ${month}`;
   }
 
   return (
@@ -254,7 +254,7 @@ export default function Recording(props: {
           <div className={`rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-12 boredr-2 shadow-md`}>
             <div className="mb-6 font-bold text-primary text-xl">Snoring Detect</div>
             <div>
-              <SleepChartDay sleepCycleLineLists={sleepCycleLineLists} />
+              <SleepChartDay sleepCycleLineLists={sleepCycleLineLists} showTimeLabel={true}/>
             </div>
           </div>
         </div>

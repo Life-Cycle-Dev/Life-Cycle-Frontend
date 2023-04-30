@@ -5,6 +5,7 @@ import SnoringChartWeek from "@/components/chart/SnoringChartWeek";
 import DateIcon from "@/icons/DateIcon";
 import { GetUserInfoResponse } from "@/model/users/users";
 import moment from "moment";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
@@ -30,7 +31,7 @@ export default function Sleep(props: {
       <HeaderBar headerName="Sleep Cycle" />
       <section>
         <div className="bg-background w-full h-screen text-textWhite p-5">
-          <div className="mt-20 pb-20 ">
+          <div className="mt-20 pb-20">
             <div className="shadow-md p-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] rounded-[30px] ">
               <div className="text-[34px]">Record your sleep</div>
 
@@ -54,14 +55,22 @@ export default function Sleep(props: {
             </div>
 
             <div className={`shadow-md rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2`}>
-              <div className="mb-6 font-bold text-primary text-xl">Sleep times</div>
+              <div className="mb-6 flex justify-between items-center font-bold">
+                <div className="text-primary text-xl">Sleep Times</div>
+                <Link className="text-primary text-[14px] underline"
+                      href={`/sleep/report?date=${date}`}>see more</Link>
+              </div>
               <div>
                 <SleepChartWeek currentDate={new Date(date)} />
               </div>
             </div>
 
             <div className={`shadow-md rounded-[30px] bg-backgroundInput backdrop-filter-[blur(35px)] gap-4 p-6 mt-6 boredr-2`}>
-              <div className="mb-6 font-bold text-primary text-xl">Snoring times</div>
+              <div className="mb-6 flex justify-between items-center font-bold">
+                <div className="text-primary text-xl">Snoring Times</div>
+                <Link className="text-primary text-[14px] underline"
+                     href={`/sleep/report?date=${date}`}>see more</Link>
+              </div>
               <div>
                 <SnoringChartWeek currentDate={new Date(date)} />
               </div>
