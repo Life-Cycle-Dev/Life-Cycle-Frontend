@@ -46,9 +46,9 @@ export const updateTimeSleep = async (id: number, data: any) => {
 };
 
 export function getPreviousDate(datetime: Date) {
-  const date = new Date(datetime);
+  let date = new Date(datetime);
   if (date.getHours() < 12) {
-    date.setUTCDate(date.getDate() - 1);
+    date = new Date(date.valueOf() - 1000 * 60 * 60 * 24);
   }
   return date.toISOString().split("T")[0];
 }
