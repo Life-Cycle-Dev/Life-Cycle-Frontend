@@ -121,7 +121,7 @@ export default function Recording(props: {
 
   const handleRegenerateChart = async () => {    
     const summarySleepTime = await getSummarySleepTime(
-      new Date(getPreviousDate(new Date()))
+      new Date(getPreviousDate(new Date())), new Date(getPreviousDate(new Date()))
     );
     if (summarySleepTime.length === 0) {
       return;
