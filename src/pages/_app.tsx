@@ -61,9 +61,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       {loading && <Loading />}
-      <div className="fixed z-50 right-0 m-2 text-background text-[12px] rounded bg-iconInput px-3">
-        User acceptance test environment
-      </div>
       <div className={`${loading && "hidden"} container-app`}>
         <Component {...pageProps} user={user} setLoading={setLoading} />
       </div>
